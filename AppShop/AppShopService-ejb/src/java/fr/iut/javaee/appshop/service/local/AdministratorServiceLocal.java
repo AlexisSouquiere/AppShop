@@ -19,5 +19,5 @@ public interface AdministratorServiceLocal
     
     public void persist(Administrator a);
     
-    public boolean authenticate(Administrator a);
+    public String authenticate(Administrator a);
 }

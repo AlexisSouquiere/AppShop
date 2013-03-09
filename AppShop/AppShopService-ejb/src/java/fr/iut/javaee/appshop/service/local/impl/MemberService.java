@@ -43,7 +43,7 @@ public class MemberService implements MemberServiceLocal
     }   
 
     @Override
-    public boolean authenticate(Member1 m) 
+    public String authenticate(Member1 m) 
     {
         Query q = em.createQuery("SELECT m FROM Member1 m "
                 + "WHERE m.memberUsername = :paramUsername "
@@ -51,8 +51,8 @@ public class MemberService implements MemberServiceLocal
         q.setParameter("paramUsername", m.getMemberUsername());
         q.setParameter("paramPassword", m.getMemberPassword());
         
-        Member1 mem = (Member1) q.getSingleResult();
+        Member1 member = (Member1) q.getSingleResult();
         
-        return mem != null ? true : false;
+        return member != null ? member.getMemberUsername() : null;
     }
 }

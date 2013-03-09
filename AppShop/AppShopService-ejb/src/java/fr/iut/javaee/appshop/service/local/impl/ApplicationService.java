@@ -4,17 +4,15 @@
  */
 package fr.iut.javaee.appshop.service.local.impl;
 
-import fr.iut.javaee.appshop.commons.Administrator;
 import fr.iut.javaee.appshop.commons.Application;
+import fr.iut.javaee.appshop.commons.Editor;
 import fr.iut.javaee.appshop.service.local.ApplicationServiceLocal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -30,10 +28,37 @@ public class ApplicationService implements ApplicationServiceLocal
     @PersistenceContext(unitName="AppShopCommonsPU")
     private EntityManager em;
     
-    
+    @Override
     public List<Application> findAll() 
     {
         return em.createNamedQuery("Application.findAll").getResultList();
+    }
+    
+    @Override
+    public List<Application> findApplicationList()
+    {
+        Query query = em.createNativeQuery("SELECT application_Name, editor_Id, editor_Name " +
+                "FROM APPSHOP.APPLICATION INNER JOIN APPSHOP.EDITOR " +
+                "ON APPSHOP.APPLICATION.APPLICATION_EDITOR_ID = APPSHOP.EDITOR.EDITOR_ID " +
+                "GROUP BY application_Name, editor_Id, editor_Name");
+        
+        List<Application> list = new ArrayList<Application>();
+        List<Object[]> res = (List<Object[]>)query.getResultList();
+        
+        for(Object[] s : res)
+        {
+            Application a = new Application();
+            Editor e = new Editor();
+            
+            a.setApplicationName((String)s[0]);            
+            e.setEditorId((Integer)s[1]);
+            e.setEditorName((String)s[2]);
+            
+            a.setApplicationEditorId(e);
+            list.add(a);
+        }
+        
+        return list;        
     }
 
     @Override
@@ -55,8 +80,8 @@ public class ApplicationService implements ApplicationServiceLocal
     @Override
     public List<Application> findApplicationsByPlatformId(int id) 
     {
-        Query query = em.createNativeQuery("SELECT a FROM APPLICATION a "
-                + "WHERE a.applicationPlatformId.platformId = :platformId ");
+        Query query = em.createQuery("SELECT a FROM Application a "
+                + "WHERE a.platform.platformId = :platformId");
         query.setParameter("platformId", id);
         
         return query.getResultList();
@@ -73,7 +98,7 @@ public class ApplicationService implements ApplicationServiceLocal
     @Override
     public List<Application> findApplicationsByEditorId(int id) 
     {
-        Query query = em.createNativeQuery("SELECT a FROM APPLICATION a "
+        Query query = em.createNativeQuery("SELECT a FROM Application a "
                 + "WHERE a.applicationEditorId.editorId = :editorId ");
         query.setParameter("editorId", id);
         

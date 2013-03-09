@@ -17,6 +17,8 @@ public interface ApplicationServiceLocal
 {
     public List<Application> findAll();
     
+    public List<Application> findApplicationList();
+    
     public Application findOneById(Integer id);
     
     public List<Application> findApplicationsByName(String name);

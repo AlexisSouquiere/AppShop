@@ -1,16 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <!-- FacesServlet -->
     <servlet>
-        <servlet-name>ApplicationController</servlet-name>
-        <servlet-class>fr.iut.javaee.appshop.web.controller.ApplicationController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ApplicationController</servlet-name>
-        <url-pattern>/ApplicationController</url-pattern>
-    </servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name> 
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class> 
+        <load-on-startup>1</load-on-startup> 
+    </servlet> 
+    <servlet-mapping> 
+        <servlet-name>Faces Servlet</servlet-name> 
+        <url-pattern>*.xhtml</url-pattern> 
+    </servlet-mapping> 
+    <!-- End Faces Servlet -->
+    
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    
+    <security-constraint>
+        <display-name>BackEnd</display-name>
+        <web-resource-collection>
+            <web-resource-name>Admin</web-resource-name>
+            <url-pattern>/admin/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-role>
+        <description>Administrator role</description>
+        <role-name>Admin</role-name>
+    </security-role>
+    <security-role>
+        <description>Member role</description>
+        <role-name>Member</role-name>
+    </security-role>
+    
+    <welcome-file-list>  
+        <welcome-file>index.xhtml</welcome-file>  
+    </welcome-file-list>
 </web-app>

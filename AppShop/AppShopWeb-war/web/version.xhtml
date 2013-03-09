@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:body>
+        <ui:composition template="/template/template.xhtml">
+            <ui:define name="content">
+                    <p>#{applicationController.application.applicationName}</p>     
+                    <p>#{applicationController.application.applicationVersion}</p>
+                    <p>#{applicationController.application.applicationReleaseDate}</p>                  
+                    <p>#{applicationController.application.applicationEditorId.editorName}</p>   
+                    <p>#{applicationController.application.applicationPrice}</p>
+                    
+                    <h:form>
+                        <h:commandLink action="#{downloadController.download(applicationController.application.applicationId)}"
+                                         value="#{msg['download']}"/>
+                    </h:form>
+                            
+                    
+                    <div class="span6">
+                        <f:view>
+                            <h1> 
+                                <h:outputText value="#{msg['comment']}"/> 
+                            </h1> 
+                            <h:form>                                
+                                <h:outputText value="#{msg['message']}"/> <br/>
+                                <h:panelGrid columns="2">   
+                                    <h:inputText value="#{commentController.comment}"
+                                                 required="true" 
+                                                 label="#{msg['message']}"
+                                                 id="message"/>
+                                    <h:message for="message" style="color:red" />
+                                </h:panelGrid>
+                                
+                                <h:inputHidden value="#{applicationController.application.applicationId}"/>
+                                
+                                <h:commandButton action="#{commentController.postComment}" 
+                                                 value="#{msg['postComment']}"/>
+                            </h:form>
+                        </f:view>  
+                        <div>
+                            <ui:repeat value="#{applicationController.application.commentList}" var="c">
+                                <div class="comment">
+                                    <p>#{c.commentMemberId.memberUsername}</p>
+                                    <p>#{c.commentDate}</p>
+                                    <p>#{c.commentBody}</p>
+                                    <hr/>
+                                </div>
+                            </ui:repeat>
+                        </div>                        
+                    </div>
+                    
+                    
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

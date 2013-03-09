@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:body>
+        <ui:composition template="/template/template.xhtml">
+            <ui:define name="content">
+                <div class="row">
+                    <div class="span6"> 
+                        <f:view>
+                            <h1> 
+                                <h:outputText value="#{msg['register']}"/> 
+                            </h1> 
+                            <h:form>  
+                                <h:outputText value="#{msg['firstname']}"/> <br/>	
+                                <h:panelGrid columns="2">   
+                                    <h:inputText value="#{memberController.member.memberFirstname}"
+                                                 required="true" 
+                                                 label="#{msg['firstname']}"
+                                                 id="firstname"/>
+                                    <h:message for="firstname" style="color:red" />
+                                </h:panelGrid> 
+                                
+                                <h:outputText value="#{msg['lastname']}"/> <br/>		
+                                <h:panelGrid columns="2">   
+                                    <h:inputText value="#{memberController.member.memberLastname}"
+                                                 required="true" 
+                                                 label="#{msg['lastname']}"
+                                                 id="lastname"/>
+                                    <h:message for="lastname" style="color:red" />
+                                </h:panelGrid>   
+                                
+                                <h:outputText value="#{msg['birthdate']}"/> <br/>		
+                                <h:panelGrid columns="2">                            
+                                    <h:inputText id="date" value="#{memberController.member.memberBirthdate}" 
+                                          size="20" required="true"
+                                          label="#{msg['birthdate']}" >
+                                          <f:convertDateTime pattern="#{ms['dateFormat']}" />
+                                    </h:inputText>
+                                    <h:message for="date" style="color:red" />
+                                </h:panelGrid>
+                                
+                                <h:outputText value="#{msg['email']}"/> <br/>	
+                                <h:panelGrid columns="2">   
+                                    <h:inputText value="#{memberController.member.memberEmail}"
+                                                 required="true" 
+                                                 label="#{msg['email']}"
+                                                 id="email"/>
+                                    <h:message for="email" style="color:red" />
+                                </h:panelGrid>  
+                                
+                                <h:outputText value="#{msg['username']}"/> <br/>
+                                <h:panelGrid columns="2">   
+                                    <h:inputText value="#{memberController.member.memberUsername}"
+                                                 required="true" 
+                                                 label="#{msg['username']}"
+                                                 id="username"/>
+                                    <h:message for="username" style="color:red" />
+                                </h:panelGrid>
+                                
+                                <h:outputText value="#{msg['password']}"/> <br/>
+                                <h:panelGrid columns="2">   
+                                    <h:inputText value="#{memberController.member.memberPassword}"
+                                                 required="true" 
+                                                 label="#{msg['password']}"
+                                                 id="password"/>
+                                    <h:message for="password" style="color:red" />
+                                </h:panelGrid>
+                                
+                                <h:commandButton action="#{memberController.doRegister}" 
+                                                 value="#{msg['register']}"/>
+                            </h:form>
+                        </f:view>                         
+                    </div>
+                    <div class="span6">
+                        <f:view>
+                            <h1> 
+                                <h:outputText value="#{msg['sign']}"/> 
+                            </h1> 
+                            <h:form>  
+                                <h:outputText value="#{msg['username']}"/> <br/>
+                                <h:panelGrid columns="2">   
+                                    <h:inputText value="#{memberController.member.memberUsername}"
+                                                 required="true" 
+                                                 label="#{msg['username']}"
+                                                 id="username"/>
+                                    <h:message for="username" style="color:red" />
+                                </h:panelGrid>
+                                
+                                <h:outputText value="#{msg['password']}"/> <br/>
+                                <h:panelGrid columns="2">   
+                                    <h:inputText value="#{memberController.member.memberPassword}"
+                                                 required="true" 
+                                                 label="#{msg['password']}"
+                                                 id="password"/>
+                                    <h:message for="password" style="color:red" />
+                                </h:panelGrid>
+                                
+                                <h:commandButton action="#{memberController.doLogin}" 
+                                                 value="#{msg['sign']}"/>
+                            </h:form>
+                        </f:view>                          
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

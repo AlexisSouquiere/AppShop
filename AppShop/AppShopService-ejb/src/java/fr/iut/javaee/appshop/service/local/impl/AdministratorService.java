@@ -40,7 +40,7 @@ public class AdministratorService implements AdministratorServiceLocal
     }
 
     @Override
-    public boolean authenticate(Administrator a) 
+    public String authenticate(Administrator a) 
     {
         Query query = em.createNativeQuery("SELECT a FROM ADMINISTRATOR a "
                 + "WHERE a.administratorUsername :administratorUsername "
@@ -50,7 +50,7 @@ public class AdministratorService implements AdministratorServiceLocal
         
         Administrator admin = (Administrator)query.getSingleResult();
         
-        return admin != null ? true : false;
+        return admin != null ? admin.getAdministratorUsername() : null;
     }
    
 }

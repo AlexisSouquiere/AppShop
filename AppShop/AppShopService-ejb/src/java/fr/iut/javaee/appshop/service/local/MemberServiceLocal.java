@@ -21,5 +21,5 @@ public interface MemberServiceLocal
     
     public void remove(Member1 m);
     
-    public boolean authenticate(Member1 a);
+    public String authenticate(Member1 a);
 }
