@@ -20,4 +20,6 @@ public interface CommentServiceLocal
     public void persist(Comment c);
     
     public void remove(Comment c);
+
+    public List<Comment> findLastFiveCommentsAdded();
 }

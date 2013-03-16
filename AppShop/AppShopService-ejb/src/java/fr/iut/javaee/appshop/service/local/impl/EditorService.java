@@ -38,12 +38,12 @@ public class EditorService implements EditorServiceLocal
     @Override
     public void persist(Editor e) 
     {
-        em.persist(e);
+        em.persist(em.merge(e));
     }
 
     @Override
     public void remove(Editor e) 
     {
-        em.remove(e);
+        em.remove(em.merge(e));
     }
 }

@@ -2,7 +2,7 @@ package fr.iut.javaee.appshop.web.controller;
 
 import fr.iut.javaee.appshop.commons.Application;
 import fr.iut.javaee.appshop.commons.Comment;
-import fr.iut.javaee.appshop.commons.Member1;
+import fr.iut.javaee.appshop.commons.Users;
 import fr.iut.javaee.appshop.service.local.CommentServiceLocal;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,10 +10,9 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 
 /**
  *
@@ -29,8 +28,8 @@ public class CommentController implements Serializable
     private List<Comment> comments;
     private String comment;
     
-    @ManagedProperty(value = "#{memberController.member}")
-    private Member1 member;
+    @ManagedProperty(value = "#{userController.user}")
+    private Users user;
     
     @ManagedProperty(value = "#{applicationController.application}")
     private Application application;
@@ -52,12 +51,21 @@ public class CommentController implements Serializable
         Comment c = new Comment();
         c.setCommentBody(comment);
         c.setCommentDate(new Date());
-        if(member.getMemberId() != null) {
-            c.setCommentMemberId(member);
+        if(user.getUserId() != null) {
+            c.setCommentUser(user);
         }
-        c.setCommentApplicationId(application);
+        c.setCommentApplication(application);
         
         service.persist(c);
+        
+        comments = application.getCommentList();
+        comments.add(c);
+        application.setCommentList(comments);
+    }
+    
+    public List<Comment> findLastFive()
+    {
+        return service.findLastFiveCommentsAdded();
     }
     
     public List<Comment> getComments() 
@@ -73,18 +81,17 @@ public class CommentController implements Serializable
     {
         return comment;
     }
-
     
-    public Member1 getMember() {
-        return member;
+    public Users getUser() {
+        return user;
     }
 
     public Application getApplication() {
         return application;
     }
 
-    public void setMember(Member1 member) {
-        this.member = member;
+    public void setUser(Users user) {
+        this.user = user;
     }
 
     public void setApplication(Application application) {

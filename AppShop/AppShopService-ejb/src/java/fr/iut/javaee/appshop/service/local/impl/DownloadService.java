@@ -4,14 +4,14 @@
  */
 package fr.iut.javaee.appshop.service.local.impl;
 
+import fr.iut.javaee.appshop.commons.Application;
 import fr.iut.javaee.appshop.commons.Download;
-import fr.iut.javaee.appshop.commons.Member1;
+import fr.iut.javaee.appshop.commons.Users;
 import fr.iut.javaee.appshop.service.local.DownloadServiceLocal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.security.DeclareRoles;
-import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,11 +26,11 @@ public class DownloadService implements DownloadServiceLocal
 {
     @PersistenceContext(unitName="AppShopCommonsPU")
     private EntityManager em;
-
+    
     @Override
     public Integer findDownloadByDates(Date start, Date end) 
     {
-        Query query = em.createNativeQuery("SELECT COUNT(d) FROM DOWNLOAD d "
+        Query query = em.createQuery("SELECT COUNT(d) FROM Download d "
                 + "WHERE d.downloadDate BETWEEN :start AND :end");
         query.setParameter("start", start);
         query.setParameter("end", end);
@@ -41,46 +41,64 @@ public class DownloadService implements DownloadServiceLocal
     @Override
     public Integer findDownloadByDatesAndApplicationId(Date start, Date end, int id) 
     {
-        Query query = em.createNativeQuery("SELECT COUNT(d) FROM DOWNLOAD d "
-                + "WHERE d.downloadDate AND d.downloadApplicationId.applicationId = :id "
-                + "BETWEEN :start AND :end");
+        Query query = em.createQuery("SELECT COUNT(d) FROM Download d "
+                + "WHERE d.downloadDate BETWEEN :start AND :end "
+                + "AND d.downloadApplicationId.applicationId = :id ");
         query.setParameter("id", id);
         query.setParameter("start", start);
         query.setParameter("end", end);
         
-        return (Integer)query.getSingleResult();
+        Integer res = Integer.parseInt(query.getSingleResult().toString());
+        return res;
     }
 
     @Override
     public Integer findDownloadNumberByApplicationId(Integer id) 
     {
-        Query query = em.createNativeQuery("SELECT COUNT(d) FROM DOWNLOAD d "
-                + "WHERE d.downloadDate AND d.downloadApplicationId.applicationId = :id");
+        Query query = em.createQuery("SELECT COUNT(d) FROM Download d "
+                + "WHERE d.downloadApplication.applicationId = :id");
         query.setParameter("id", id);
         
-        return (Integer)query.getSingleResult();
+        Integer res = Integer.parseInt(query.getSingleResult().toString());
+        return res;
     }
 
     @Override
-    public List<Member1> findMemberByApplicationId(int id) 
+    public List<Users> findMemberByApplicationId(int id) 
     {
-       Query query2 = em.createQuery("SELECT d FROM Download d "
-               + "WHERE d.downloadApplicationId.applicationId = :paramID");
-       query2.setParameter("paramID", id);
-       
-       //List of download --> Result of the query
-       List<Download> Dls = query2.getResultList();
-        
-        //create a list of member --> Get back the list whithout double (member)
-        List<Member1> Members = new  ArrayList<Member1>();        
-        for (Download dl : Dls) {            
-            if (!(Members.contains(dl.getDownloadMemberId())))
-                    {
-                        Members.add(dl.getDownloadMemberId()); 
-                    }
-        }
-        
-        return Members;
+        Query query2 = em.createQuery("SELECT d FROM Download d WHERE d.downloadApplication.applicationId = :id");
+        query2.setParameter("id", id);     
+
+        List<Download> downloads = query2.getResultList();      
+
+        List<Users> users = new  ArrayList<Users>();        
+        for (Download d : downloads) {            
+            if (!(users.contains(d.getDownloadUser())))
+            {
+                users.add(d.getDownloadUser()); 
+            }
+        }  
+
+         return users;
+    }
+
+    @Override
+    public List<Users> findMemberByApplicationName(Application a) 
+    {
+        Query query2 = em.createQuery("SELECT d FROM Download d WHERE d.downloadApplication.applicationName = :name");
+        query2.setParameter("name", a.getApplicationName());     
+
+        List<Download> downloads = query2.getResultList();      
+
+        List<Users> users = new  ArrayList<Users>();        
+        for (Download d : downloads) {            
+            if (!(users.contains(d.getDownloadUser())))
+            {
+                users.add(d.getDownloadUser()); 
+            }
+        }  
+
+         return users;
     }
     
     @Override

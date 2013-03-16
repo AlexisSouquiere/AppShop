@@ -10,9 +10,11 @@ import java.util.List;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
+import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.UserTransaction;
 
 /**
  *
@@ -35,7 +37,8 @@ public class CommentService implements CommentServiceLocal
     }
     
     @Override
-    public void persist(Comment c) {
+    public void persist(Comment c) 
+    {
         em.persist(c);
     }
 
@@ -43,4 +46,13 @@ public class CommentService implements CommentServiceLocal
     public void remove(Comment c) {
         em.persist(c);
     }    
+
+    @Override
+    public List<Comment> findLastFiveCommentsAdded() 
+    {
+        Query query = em.createQuery("SELECT c FROM Comment c "
+                + "ORDER BY c.commentDate DESC");
+        
+        return query.setMaxResults(5).getResultList(); 
+    }
 }

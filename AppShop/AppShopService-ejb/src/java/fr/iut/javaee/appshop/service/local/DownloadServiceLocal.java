@@ -4,8 +4,9 @@
  */
 package fr.iut.javaee.appshop.service.local;
 
+import fr.iut.javaee.appshop.commons.Application;
 import fr.iut.javaee.appshop.commons.Download;
-import fr.iut.javaee.appshop.commons.Member1;
+import fr.iut.javaee.appshop.commons.Users;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
@@ -25,7 +26,9 @@ public interface DownloadServiceLocal
 
     public Integer findDownloadNumberByApplicationId(Integer id);
     
-    public List<Member1> findMemberByApplicationId(int id);
+    public List<Users> findMemberByApplicationId(int id);
+    
+    public List<Users> findMemberByApplicationName(Application a);
     
     public void persist(Download d);
 }

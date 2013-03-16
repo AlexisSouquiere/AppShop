@@ -31,8 +31,9 @@ public class RateService implements RateServiceLocal
     @Override
     public Double findApplicationRateAverage(int id) 
     {        
-        Query q = em.createQuery("SELECT AVG(r.rate + 0.0) FROM Rate r WHERE r.rateApplicationId.applicationId = :paramID");
-        q.setParameter("paramID", id);        
-        return (Double) q.getSingleResult();
+        Query q = em.createQuery("SELECT AVG(r.rate + 0.0) FROM Rate r WHERE r.rateApplication.applicationId = :paramID");
+        q.setParameter("paramID", id);  
+        Double rate = (Double) q.getSingleResult();
+        return rate != null ? rate : 5;
     }
 }

@@ -6,38 +6,7 @@
     xmlns="http://java.sun.com/xml/ns/javaee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd">
-    <application>
-        <managed-bean>
-            <managed-bean-name>applicationController</managed-bean-name>
-            <managed-bean-class>fr.iut.javaee.appshop.web.controller.ApplicationController</managed-bean-class>
-            <managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
-        <managed-bean>
-            <managed-bean-name>platformController</managed-bean-name>
-            <managed-bean-class>fr.iut.javaee.appshop.web.controller.PlatformController</managed-bean-class>
-            <managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
-        <managed-bean>
-            <managed-bean-name>memberController</managed-bean-name>
-            <managed-bean-class>fr.iut.javaee.appshop.web.controller.MemberController</managed-bean-class>
-            <managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
-        <managed-bean>
-            <managed-bean-name>commentController</managed-bean-name>
-            <managed-bean-class>fr.iut.javaee.appshop.web.controller.CommentController</managed-bean-class>
-            <managed-bean-scope>session</managed-bean-scope>
-            <managed-property>
-                <property-name>member</property-name>
-                <property-class>fr.iut.javaee.appshop.commons.Member1</property-class>
-                <value>#{memberController.member}</value>
-            </managed-property>
-            <managed-property>
-                <property-name>application</property-name>
-                <property-class>fr.iut.javaee.appshop.commons.Application</property-class>
-                <value>#{applicationController.application}</value>
-            </managed-property>
-        </managed-bean>
-                
+    <application>                
         <locale-config>
             <default-locale>en_US</default-locale>
         </locale-config>

@@ -15,16 +15,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Alexis
  */
 @Entity
-@Table(name = "RATE", schema = "APPSHOP")
+@Table(name = "RATE", catalog = "", schema = "APPSHOP")
 @NamedQueries({
     @NamedQuery(name = "Rate.findAll", query = "SELECT r FROM Rate r"),
     @NamedQuery(name = "Rate.findByRateId", query = "SELECT r FROM Rate r WHERE r.rateId = :rateId"),
@@ -40,12 +40,12 @@ public class Rate implements Serializable {
     @Basic(optional = false)
     @Column(name = "RATE", nullable = false)
     private int rate;
-    @JoinColumn(name = "RATE_MEMBER_ID", referencedColumnName = "MEMBER_ID")
+    @JoinColumn(name = "RATE_USER_ID", referencedColumnName = "USER_ID")
     @ManyToOne
-    private Member1 member;
+    private Users rateUser;
     @JoinColumn(name = "RATE_APPLICATION_ID", referencedColumnName = "APPLICATION_ID", nullable = false)
     @ManyToOne(optional = false)
-    private Application application;
+    private Application rateApplication;
 
     public Rate() {
     }
@@ -75,20 +75,20 @@ public class Rate implements Serializable {
         this.rate = rate;
     }
 
-    public Member1 getRateMemberId() {
-        return member;
+    public Users getRateUserId() {
+        return rateUser;
     }
 
-    public void setRateMemberId(Member1 member) {
-        this.member = member;
+    public void setRateUser(Users rateUser) {
+        this.rateUser = rateUser;
     }
 
-    public Application getRateApplicationId() {
-        return application;
+    public Application getRateApplication() {
+        return rateApplication;
     }
 
-    public void setRateApplicationId(Application application) {
-        this.application = application;
+    public void setRateApplication(Application rateApplication) {
+        this.rateApplication = rateApplication;
     }
 
     @Override

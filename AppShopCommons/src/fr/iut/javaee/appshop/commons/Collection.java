@@ -7,45 +7,47 @@ package fr.iut.javaee.appshop.commons;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Alexis
  */
 @Entity
-@Table(name = "COLLECTION", schema = "APPSHOP")
+@Table(name = "COLLECTION", catalog = "", schema = "APPSHOP")
 @NamedQueries({
     @NamedQuery(name = "Collection.findAll", query = "SELECT c FROM Collection c"),
     @NamedQuery(name = "Collection.findByCollectionId", query = "SELECT c FROM Collection c WHERE c.collectionId = :collectionId"),
     @NamedQuery(name = "Collection.findByCollectionName", query = "SELECT c FROM Collection c WHERE c.collectionName = :collectionName"),
-    @NamedQuery(name = "Collection.findByCollectionMemberId", query = "SELECT c FROM Collection c WHERE c.collectionMemberId = :collectionMemberId")})
+    @NamedQuery(name = "Collection.findByCollectionUsersId", query = "SELECT c FROM Collection c WHERE c.collectionUsers.userId = :collectionUsersId")})
 public class Collection implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy= GenerationType.TABLE, generator="SEQ_COLLECTION")    
     @TableGenerator(name = "SEQ_COLLECTION", schema="APPSHOP", table = "SEQUENCE", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "SEQ_COLLECTION", allocationSize = 1)
-    @Basic(optional = false)
     @Column(name = "COLLECTION_ID", nullable = false)
     private Integer collectionId;
     @Basic(optional = false)
     @Column(name = "COLLECTION_NAME", nullable = false, length = 25)
     private String collectionName;
-    @Basic(optional = false)
-    @Column(name = "COLLECTION_MEMBER_ID", nullable = false)
-    private int collectionMemberId;
-    @ManyToMany(mappedBy = "collectionList")
-    private List<Application> applicationList;
+    @JoinColumn(name = "COLLECTION_USERS_ID", referencedColumnName = "USER_ID", nullable = false)
+    @ManyToOne(optional = false)
+    private Users collectionUsers;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "applicationCollectionCollection")
+    private List<ApplicationCollection> applicationCollectionList;
 
     public Collection() {
     }
@@ -54,10 +56,10 @@ public class Collection implements Serializable {
         this.collectionId = collectionId;
     }
 
-    public Collection(Integer collectionId, String collectionName, int collectionMemberId) {
+    public Collection(Integer collectionId, String collectionName, Users collectionUsers) {
         this.collectionId = collectionId;
         this.collectionName = collectionName;
-        this.collectionMemberId = collectionMemberId;
+        this.collectionUsers = collectionUsers;
     }
 
     public Integer getCollectionId() {
@@ -76,20 +78,17 @@ public class Collection implements Serializable {
         this.collectionName = collectionName;
     }
 
-    public int getCollectionMemberId() {
-        return collectionMemberId;
+    public Users getCollectionUsers() {
+        return collectionUsers;
     }
 
-    public void setCollectionMemberId(int collectionMemberId) {
-        this.collectionMemberId = collectionMemberId;
+    @XmlTransient
+    public List<ApplicationCollection> getApplicationCollectionList() {
+        return applicationCollectionList;
     }
 
-    public List<Application> getApplicationList() {
-        return applicationList;
-    }
-
-    public void setApplicationList(List<Application> applicationList) {
-        this.applicationList = applicationList;
+    public void setApplicationCollectionList(List<ApplicationCollection> applicationCollectionList) {
+        this.applicationCollectionList = applicationCollectionList;
     }
 
     @Override
@@ -115,6 +114,10 @@ public class Collection implements Serializable {
     @Override
     public String toString() {
         return "fr.iut.javaee.appshop.commons.Collection[ collectionId=" + collectionId + " ]";
+    }
+
+    public void setCollectionUsers(Users collectionUsers) {
+        this.collectionUsers = collectionUsers;
     }
     
 }

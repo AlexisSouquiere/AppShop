@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <ui:composition template="/admin/template/template.xhtml">
+        <ui:define name="content">
+            <h2>#{msg['add_member']}</h2>
+            <h:form>
+                <h:outputText value="#{msg['username']}"/> <br/>	
+                <h:panelGrid columns="2">   
+                    <h:inputText value="#{userController.managedUser.userUsername}"
+                                 required="true"
+                                 id="username"/>
+                    <h:message for="username" style="color:red" />
+                </h:panelGrid> 
+                                
+                <h:outputText value="#{msg['password']}"/> <br/>
+                <h:panelGrid columns="2">   
+                    <h:inputSecret value="#{userController.managedUser.userPassword}"
+                                 required="true" 
+                                 label="#{msg['password']}"
+                                 id="password"/>
+                    <h:message for="password" style="color:red" />
+                </h:panelGrid>
+                
+                <h:outputText value="#{msg['lastname']}"/> <br/>	
+                <h:panelGrid columns="2">   
+                    <h:inputText value="#{userController.managedUser.userLastname}"
+                                 required="true"
+                                 id="lastname"/>
+                    <h:message for="lastname" style="color:red" />
+                </h:panelGrid> 
+                
+                <h:outputText value="#{msg['firstname']}"/> <br/>	
+                <h:panelGrid columns="2">   
+                    <h:inputText value="#{userController.managedUser.userFirstname}"
+                                 required="true"
+                                 id="firstname"/>
+                    <h:message for="firstname" style="color:red" />
+                </h:panelGrid>
+                
+                <h:outputText value="#{msg['email']}"/> <br/>	
+                <h:panelGrid columns="2">   
+                    <h:inputText value="#{userController.managedUser.userEmail}"
+                                 required="true"
+                                 id="email"/>
+                    <h:message for="email" style="color:red" />
+                </h:panelGrid> 
+                
+                <h:outputText value="#{msg['birthdate']}"/> <br/>	
+                <h:panelGrid columns="2">   
+                    <h:inputText value="#{userController.managedUser.userBirthdate}"
+                                 id="birthdate">
+                        <f:convertDateTime pattern="#{ms['dateFormat']}" />
+                    </h:inputText>
+                    <h:message for="birthdate" style="color:red" />
+                </h:panelGrid>                    
+                
+                <h:selectOneMenu value="#{userController.managedUser.userGroupName}">
+                    <f:selectItem itemValue="Admin" itemLabel="Administrator" />
+                    <f:selectItem itemValue="Member" itemLabel="Member" />
+                </h:selectOneMenu>
+                
+                <h:commandButton action="#{userController.add()}"
+                                 value="#{msg['add']}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

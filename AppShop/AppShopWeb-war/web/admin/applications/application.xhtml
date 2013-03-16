@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <ui:composition template="/admin/template/template.xhtml">
+        <ui:define name="content">
+            <h2>#{msg['application_edit']}</h2>
+            <h:form>
+                <h:outputText value="#{msg['application_name']}"/> <br/>	
+                <h:panelGrid columns="2">   
+                    <h:inputText value="#{applicationController.application.applicationName}"
+                                 required="true"
+                                 id="name"/>
+                    <h:message for="name" style="color:red" />
+                </h:panelGrid> 
+                
+                <h:outputText value="#{msg['application_editor']}"/> <br/>
+                <h:selectOneMenu value="#{applicationController.application.applicationEditor}"
+                                 converter="#{editorConverter}">
+                    <f:selectItems value="#{editorController.findAll()}" 
+                                   var="editor" 
+                                   itemLabel="#{editor.editorName}"
+                                   itemValue="#{editor}"/>
+                </h:selectOneMenu> <br/>
+                 
+                <h:outputText value="#{msg['application_platform']}"/> <br/>
+                <h:selectOneMenu value="#{applicationController.application.applicationPlatform}"
+                                 converter="#{platformConverter}">
+                    <f:selectItems value="#{platformController.findAll()}" 
+                                   var="platform" 
+                                   itemLabel="#{platform.platformName}"
+                                   itemValue="#{platform}"/>
+                </h:selectOneMenu> <br/>
+                    
+                <h:outputText value="#{msg['application_version']}"/> <br/>	
+                <h:panelGrid columns="2">  
+                    <h:inputText value="#{applicationController.application.applicationVersion}"
+                                 required="true"
+                                 id="version"/>
+                    <h:message for="version" style="color:red" />
+                </h:panelGrid> 
+                    
+                <h:outputText value="#{msg['application_release']}"/> <br/>	
+                <h:inputText value="#{applicationController.application.applicationReleaseDate}">
+                    <f:convertDateTime pattern="#{msg['dateFormat']}" />
+                </h:inputText> <br/>
+                
+                <h:outputText value="#{msg['application_website']}"/> <br/>	
+                <h:inputText value="#{applicationController.application.applicationWebsite}"/> <br/>
+                    
+                <h:outputText value="#{msg['application_price']}"/> <br/>	
+                <h:panelGrid columns="2">  
+                    <h:inputText value="#{applicationController.application.applicationPrice}" 
+                                 required="true"
+                                 id="price"/>
+                    <h:message for="price" style="color:red" />
+                </h:panelGrid> 
+                
+                <h:commandButton action="#{applicationController.update()}"
+                                 value="#{msg['update']}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

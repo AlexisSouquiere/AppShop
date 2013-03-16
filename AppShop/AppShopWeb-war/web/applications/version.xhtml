@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:body>
+        <ui:composition template="/template/template.xhtml">
+            <ui:define name="content">
+                    <p>#{applicationController.application.applicationName}</p>     
+                    <p>#{applicationController.application.applicationVersion}</p>
+                    <p>#{applicationController.application.applicationReleaseDate}</p>                  
+                    <p>#{applicationController.application.applicationEditor.editorName}</p>   
+                    <p>#{applicationController.application.applicationPrice}</p>
+                    
+                    <form action="downloads/action=DlApp" method="POST">    
+                        <input type="hidden" name="applicationId" value="#{applicationController.application.applicationId}"/>
+                        <input type="hidden" name="userId" value="#{userController.user.userId}"/>
+                        <input type="submit" value="Download" name="btnNext" class="btn btn-info"/>
+                    </form>    
+                            
+                    <div class="row">
+                        <div class="span6">
+                            <f:view>
+                                <h1> 
+                                    <h:outputText value="#{msg['comment']}"/> 
+                                </h1> 
+                                <h:form>                                
+                                    <h:outputText value="#{msg['message']}"/> <br/>
+                                    <h:panelGrid columns="2">   
+                                        <h:inputText value="#{commentController.comment}"
+                                                     required="true" 
+                                                     label="#{msg['message']}"
+                                                     id="message"/>
+                                        <h:message for="message" style="color:red" />
+                                    </h:panelGrid>
+
+                                    <h:inputHidden value="#{applicationController.application.applicationId}"/>
+
+                                    <h:commandButton action="#{commentController.postComment}" 
+                                                     value="#{msg['postComment']}"/>
+                                </h:form>
+                            </f:view>  
+                            <div>
+                                <ui:repeat value="#{applicationController.application.commentList}" var="c">
+                                    <div class="comment">
+                                        <p>#{c.commentUser.userUsername}</p>
+                                        <p>#{c.commentDate}</p>
+                                        <p>#{c.commentBody}</p>
+                                        <hr/>
+                                    </div>
+                                </ui:repeat>
+                            </div>                        
+                        </div>
+                        <div class="span6">                            
+                            <h:outputText value="#{rateController.average} / 5"/> <br/>
+                            <h:form>
+                                <h:selectOneMenu value="#{rateController.rate}">
+                                    <f:selectItem itemValue="0" itemLabel="0" />
+                                    <f:selectItem itemValue="1" itemLabel="1" />
+                                    <f:selectItem itemValue="2" itemLabel="2" />
+                                    <f:selectItem itemValue="3" itemLabel="3" />
+                                    <f:selectItem itemValue="4" itemLabel="4" />
+                                    <f:selectItem itemValue="5" itemLabel="5" />
+                                </h:selectOneMenu>
+                                <h:commandLink action="#{rateController.rateApplication}" value="Noter cette application"/>
+                            </h:form>
+                        </div>
+                    </div>
+                    
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

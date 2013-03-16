@@ -16,18 +16,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Alexis
  */
 @Entity
-@Table(name = "PURCHASE", schema = "APPSHOP")
+@Table(name = "PURCHASE", catalog = "", schema = "APPSHOP")
 @NamedQueries({
     @NamedQuery(name = "Purchase.findAll", query = "SELECT p FROM Purchase p"),
     @NamedQuery(name = "Purchase.findByPurchaseId", query = "SELECT p FROM Purchase p WHERE p.purchaseId = :purchaseId"),
@@ -44,15 +44,14 @@ public class Purchase implements Serializable {
     @Column(name = "PURCHASE_DATE")
     @Temporal(TemporalType.DATE)
     private Date purchaseDate;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "PURCHASE_PRICE", precision = 52)
     private Double purchasePrice;
-    @JoinColumn(name = "PURCHASE_MEMBER_ID", referencedColumnName = "MEMBER_ID", nullable = false)
+    @JoinColumn(name = "PURCHASE_USER_ID", referencedColumnName = "USER_ID", nullable = false)
     @ManyToOne(optional = false)
-    private Member1 member;
+    private Users purchaseUser;
     @JoinColumn(name = "PURCHASE_APPLICATION_ID", referencedColumnName = "APPLICATION_ID", nullable = false)
     @ManyToOne(optional = false)
-    private Application application;
+    private Application purchaseApplication;
 
     public Purchase() {
     }
@@ -85,20 +84,20 @@ public class Purchase implements Serializable {
         this.purchasePrice = purchasePrice;
     }
 
-    public Member1 getPurchaseMemberId() {
-        return member;
+    public Users getPurchaseUser() {
+        return purchaseUser;
     }
 
-    public void setPurchaseMemberId(Member1 member) {
-        this.member = member;
+    public void setPurchaseUser(Users purchaseUser) {
+        this.purchaseUser = purchaseUser;
     }
 
-    public Application getPurchaseApplicationId() {
-        return application;
+    public Application getPurchaseApplication() {
+        return purchaseApplication;
     }
 
-    public void setPurchaseApplicationId(Application application) {
-        this.application = application;
+    public void setPurchaseApplication(Application purchaseApplication) {
+        this.purchaseApplication = purchaseApplication;
     }
 
     @Override

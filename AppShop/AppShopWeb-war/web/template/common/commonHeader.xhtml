@@ -12,36 +12,45 @@
             <div class="navbar navbar-inverse navbar-fixed-top">
                 <div class="navbar-inner">
                     <div class="container">
-                        <a class="brand" href="/">#{msg['title']}</a>
+                        <a class="brand" href="/AppShopWeb-war/">#{msg['title']}</a>
                         <div class="nav-collapse collapse">
                             <ul class="nav">
                                 <li>
-                                    <h:form class="menu">
-                                        <h:commandLink action="#{applicationController.findAll}" 
-                                                         value="#{msg['menu_application']}"
-                                                         class="menu"/>
+                                    <h:form>
+                                        <h:commandLink action="#{applicationController.findApplicationList()}"
+                                                       value="#{msg['menu_application']}" />
                                     </h:form>
                                 </li>
                                 <li>
-                                    <h:form class="menu">
-                                        <h:commandLink action="#{platformController.findAll}" 
-                                                         value="#{msg['menu_platform']}"
-                                                         class="menu"/>
+                                    <a href="/AppShopWeb-war/platforms/list.xhtml">
+                                        #{msg['menu_platform']}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/AppShopWeb-war/editors/list.xhtml">
+                                        #{msg['menu_editor']}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/AppShopWeb-war/login.xhtml">
+                                        #{msg['menu_login']}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/AppShopWeb-war/register.xhtml">
+                                        #{msg['menu_register']}
+                                    </a>
+                                </li>
+                                <li>
+                                    <h:form>
+                                        <h:commandLink action="#{userController.doLogout()}"
+                                                       value="#{msg['menu_logout']}" />
                                     </h:form>
                                 </li>
                                 <li>
-                                    <h:form class="menu">
-                                        <h:commandLink action="login" 
-                                                         value="#{msg['menu_member']}"
-                                                         class="menu"/>
-                                    </h:form>
-                                </li>
-                                <li>
-                                    <h:form class="menu">
-                                        <h:commandLink action="admin" 
-                                                         value="#{msg['menu_back_end']}"
-                                                         class="menu"/>
-                                    </h:form>
+                                    <a href="/AppShopWeb-war/admin/">
+                                        #{msg['menu_back_end']}
+                                    </a>
                                 </li>
                             </ul>
                         </div>

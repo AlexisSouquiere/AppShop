@@ -16,16 +16,16 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Alexis
  */
 @Entity
-@Table(name = "EDITOR", schema = "APPSHOP")
+@Table(name = "EDITOR", catalog = "", schema = "APPSHOP")
 @NamedQueries({
     @NamedQuery(name = "Editor.findAll", query = "SELECT e FROM Editor e"),
     @NamedQuery(name = "Editor.findByEditorId", query = "SELECT e FROM Editor e WHERE e.editorId = :editorId"),
@@ -44,7 +44,7 @@ public class Editor implements Serializable {
     private String editorName;
     @Column(name = "EDITOR_DESCRIPTION", length = 500)
     private String editorDescription;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "editor")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "applicationEditor")
     private List<Application> applicationList;
 
     public Editor() {
@@ -83,6 +83,7 @@ public class Editor implements Serializable {
         this.editorDescription = editorDescription;
     }
 
+    @XmlTransient
     public List<Application> getApplicationList() {
         return applicationList;
     }

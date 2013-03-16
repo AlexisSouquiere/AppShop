@@ -16,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -27,7 +26,7 @@ import javax.persistence.TemporalType;
  * @author Alexis
  */
 @Entity
-@Table(name = "COMMENT", schema = "APPSHOP")
+@Table(name = "COMMENT", catalog = "", schema = "APPSHOP")
 @NamedQueries({
     @NamedQuery(name = "Comment.findAll", query = "SELECT c FROM Comment c"),
     @NamedQuery(name = "Comment.findByCommentId", query = "SELECT c FROM Comment c WHERE c.commentId = :commentId"),
@@ -38,7 +37,6 @@ public class Comment implements Serializable {
     @Id
     @TableGenerator(name = "SEQ_COMMENT", schema="APPSHOP", table = "SEQUENCE", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "SEQ_COMMENT", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy= GenerationType.TABLE, generator="SEQ_COMMENT")
-    @Basic(optional = false)
     @Column(name = "COMMENT_ID", nullable = false)
     private Integer commentId;
     @Basic(optional = false)
@@ -47,12 +45,12 @@ public class Comment implements Serializable {
     @Column(name = "COMMENT_DATE")
     @Temporal(TemporalType.DATE)
     private Date commentDate;
-    @JoinColumn(name = "COMMENT_MEMBER_ID", referencedColumnName = "MEMBER_ID", nullable = false)
-    @ManyToOne(optional = false)
-    private Member1 member;
+    @JoinColumn(name = "COMMENT_USER_ID", referencedColumnName = "USER_ID")
+    @ManyToOne
+    private Users commentUser;
     @JoinColumn(name = "COMMENT_APPLICATION_ID", referencedColumnName = "APPLICATION_ID", nullable = false)
     @ManyToOne(optional = false)
-    private Application application;
+    private Application commentApplication;
 
     public Comment() {
     }
@@ -90,20 +88,20 @@ public class Comment implements Serializable {
         this.commentDate = commentDate;
     }
 
-    public Member1 getCommentMemberId() {
-        return member;
+    public Users getCommentUser() {
+        return commentUser;
     }
 
-    public void setCommentMemberId(Member1 member) {
-        this.member = member;
+    public void setCommentUser(Users commentUser) {
+        this.commentUser = commentUser;
     }
 
-    public Application getCommentApplicationId() {
-        return application;
+    public Application getCommentApplication() {
+        return commentApplication;
     }
 
-    public void setCommentApplicationId(Application application) {
-        this.application = application;
+    public void setCommentApplication(Application commentApplication) {
+        this.commentApplication = commentApplication;
     }
 
     @Override

@@ -6,11 +6,17 @@ package fr.iut.javaee.appshop.service.local.impl;
 
 import fr.iut.javaee.appshop.commons.Application;
 import fr.iut.javaee.appshop.commons.Editor;
+import fr.iut.javaee.appshop.commons.Message;
+import fr.iut.javaee.appshop.commons.Users;
 import fr.iut.javaee.appshop.service.local.ApplicationServiceLocal;
+import fr.iut.javaee.appshop.service.local.DownloadServiceLocal;
+import fr.iut.javaee.appshop.service.local.MessageServiceLocal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,13 +26,19 @@ import javax.persistence.Query;
  *
  * @author Alexis
  */
-@DeclareRoles("admin")
+@DeclareRoles("Administrator")
 @Stateless
 //@TransactionManagement(value=TransactionManagementType.CONTAINER)
 public class ApplicationService implements ApplicationServiceLocal 
 {
     @PersistenceContext(unitName="AppShopCommonsPU")
     private EntityManager em;
+    
+    @EJB
+    private DownloadServiceLocal serviceDownload;
+    
+    @EJB
+    private MessageServiceLocal serviceMessage;
     
     @Override
     public List<Application> findAll() 
@@ -54,7 +66,7 @@ public class ApplicationService implements ApplicationServiceLocal
             e.setEditorId((Integer)s[1]);
             e.setEditorName((String)s[2]);
             
-            a.setApplicationEditorId(e);
+            a.setApplicationEditor(e);
             list.add(a);
         }
         
@@ -81,7 +93,7 @@ public class ApplicationService implements ApplicationServiceLocal
     public List<Application> findApplicationsByPlatformId(int id) 
     {
         Query query = em.createQuery("SELECT a FROM Application a "
-                + "WHERE a.platform.platformId = :platformId");
+                + "WHERE a.applicationPlatform.platformId = :platformId");
         query.setParameter("platformId", id);
         
         return query.getResultList();
@@ -98,30 +110,70 @@ public class ApplicationService implements ApplicationServiceLocal
     @Override
     public List<Application> findApplicationsByEditorId(int id) 
     {
-        Query query = em.createNativeQuery("SELECT a FROM Application a "
-                + "WHERE a.applicationEditorId.editorId = :editorId ");
-        query.setParameter("editorId", id);
+        Query query = em.createNativeQuery("SELECT application_Name, editor_Id, editor_Name " +
+                "FROM APPSHOP.APPLICATION INNER JOIN APPSHOP.EDITOR " +
+                "ON APPSHOP.APPLICATION.APPLICATION_EDITOR_ID = APPSHOP.EDITOR.EDITOR_ID " +
+                "WHERE application_Editor_Id = ? " +
+                "GROUP BY application_Name, editor_Id, editor_Name");
+        query.setParameter(1, id);
         
-        return query.getResultList();
+        List<Application> list = new ArrayList<Application>();
+        List<Object[]> res = (List<Object[]>)query.getResultList();
+        
+        for(Object[] s : res)
+        {
+            Application a = new Application();
+            Editor e = new Editor();
+            
+            a.setApplicationName((String)s[0]);            
+            e.setEditorId((Integer)s[1]);
+            e.setEditorName((String)s[2]);
+            
+            a.setApplicationEditor(e);
+            list.add(a);
+        }
+        
+        return list;
     }
     
-    @RolesAllowed("admin")
+    @RolesAllowed("Administrator")
     @Override
     public void persist(Application a) 
     {      
-        em.persist(a);       
+        em.persist(em.merge(a));
+        notifyUpdate(a);
     }
 
-    @RolesAllowed("admin")
+    @RolesAllowed("Administrator")
     @Override
     public void remove(Application a) 
     {
-        em.remove(a);
+        em.remove(em.merge(a));
     }
 
     @Override
-    public void notifyUpdate(String name) 
+    public void notifyUpdate(Application a) 
+    { 
+        List<Users> users = serviceDownload.findMemberByApplicationName(a);
+        
+        for(Users u : users)
+        {
+            Message m = new Message();
+            m.setMessageUser(u);
+            String body = String.format("%s %s : #{msg['notitfy_update']}", a.getApplicationName(), a.getApplicationVersion());
+            m.setMessageBody(body);
+            m.setMessageDate(new Date(System.currentTimeMillis()));
+            
+            serviceMessage.persist(m);
+        }
+    }
+
+    @Override
+    public List<Application> findLastFiveApplicationsAdded() 
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Query query = em.createQuery("SELECT a FROM Application a "
+                + "ORDER BY a.applicationId DESC");
+        
+        return query.setMaxResults(5).getResultList();        
     }
 }

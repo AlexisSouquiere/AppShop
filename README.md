@@ -35,4 +35,19 @@ This project has been developped with Netbeans 7.2.1 and Glassfish 3.1.2.
 	- Name : jdbc/appshop
 	- Pool name : AppShop
 6. Eventually, import some data in the AppShop database with AppShopData.sql file
-7. Deploy and Run the AppShop project on Glassfish
+7. Always in Glassfish Admin console, go to Configurations -> server-config -> Security -> Domains
+8. Create a new domain :
+	- Name : jdbcRealmSecurity
+	- Classname : com.sun.enterprise.security.auth.realm.jdbc.JDBCRealm
+	- JAAS Context :jdbcRealm
+	- JNDI : jdbc/appshop
+	- Users table : APPSHOP.USERS
+	- Username column : USER\_USERNAME
+	- Password column : USER\_PASSWORD
+	- Groups table : APPSHOP.USERS
+	- Group name column : USER\_GROUP\_NAME
+	- Databse user : root
+	- Database password : root
+	- Shortern algorithm : None 
+	- Encrypt algorithm : None
+9. Deploy and Run the AppShop project on Glassfish

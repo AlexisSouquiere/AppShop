@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <ui:composition template="/admin/template/template.xhtml">
+        <ui:define name="content">
+            <h2>#{msg['platform_edit']}</h2>
+            <h:form>
+                <h:outputText value="#{msg['name']}"/> <br/>	
+                <h:panelGrid columns="2">   
+                    <h:inputText value="#{platformController.platform.platformName}"
+                                 required="true"
+                                 id="name"/>
+                    <h:message for="name" style="color:red" />
+                </h:panelGrid> 
+                    
+                <h:outputText value="#{msg['version']}"/> <br/>	
+                <h:panelGrid columns="2">  
+                    <h:inputText value="#{platformController.platform.platformVersion}"
+                                 required="true"
+                                 id="version"/>
+                    <h:message for="version" style="color:red" />
+                </h:panelGrid> 
+                
+                <h:commandButton action="#{platformController.update()}"
+                                 value="#{msg['update']}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

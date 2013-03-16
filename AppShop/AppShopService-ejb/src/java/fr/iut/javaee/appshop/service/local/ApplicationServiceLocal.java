@@ -33,5 +33,7 @@ public interface ApplicationServiceLocal
     
     public void remove(Application a);
     
-    public void notifyUpdate(String name);
+    public void notifyUpdate(Application a);
+
+    public List<Application> findLastFiveApplicationsAdded();
 }

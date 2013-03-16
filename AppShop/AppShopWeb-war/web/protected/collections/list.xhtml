@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:body>
+        <ui:composition template="/protected/template/template.xhtml">
+            <ui:define name="content">
+                <h2>#{msg["add_collection"]}</h2>
+                <h:form>
+                    <h:outputText value="#{msg['name']}"/> <br/>	
+                    <h:panelGrid columns="2">   
+                        <h:inputText value="#{collectionController.collection.collectionName}"
+                                     required="true"
+                                     id="name"/>
+                        <h:message for="name" style="color:red" />
+                    </h:panelGrid> 
+                    <h:commandButton action="#{collectionController.add()}"
+                                 value="#{msg['add']}"/>
+                </h:form>
+                
+                <h:dataTable class="table" value="#{collectionController.findCollectionsByUserId()}" var="collection">
+                    <h:column>
+                        <f:facet name="header" >
+                            <h:outputText value="#{msg['id']}"/>
+                        </f:facet>
+                        <h:outputText value="#{collection.collectionId}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header" >
+                            <h:outputText value="#{msg['name']}"/>
+                        </f:facet>
+                        <h:outputText value="#{collection.collectionName}"/>
+                    </h:column>
+                    <h:column>
+                        <h:form>
+                            <h:commandButton action="#{collectionController.editOneById(collection.collectionId)}"
+                                             value="#{msg['edit']}"/>
+                        </h:form>
+                    </h:column>
+                    <h:column>
+                        <h:form>
+                            <h:commandButton action="#{collectionController.remove(collection)}"
+                                             value="#{msg['delete']}"/>
+                        </h:form>
+                    </h:column>               
+                </h:dataTable>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

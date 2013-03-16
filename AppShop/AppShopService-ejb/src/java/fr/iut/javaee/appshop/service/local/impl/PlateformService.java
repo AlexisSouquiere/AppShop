@@ -39,12 +39,12 @@ public class PlateformService implements PlatformServiceLocal
     public void persist(Platform p) 
     {
     
-        em.persist(p);
+        em.persist(em.merge(p));
     }
 
     @Override
     public void remove(Platform p) 
     {
-        em.remove(p);
+        em.remove(em.merge(p));
     }  
 }

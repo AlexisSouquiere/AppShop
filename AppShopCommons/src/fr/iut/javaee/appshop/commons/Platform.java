@@ -16,16 +16,16 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Alexis
  */
 @Entity
-@Table(name = "PLATFORM", schema = "APPSHOP")
+@Table(name = "PLATFORM", catalog = "", schema = "APPSHOP")
 @NamedQueries({
     @NamedQuery(name = "Platform.findAll", query = "SELECT p FROM Platform p"),
     @NamedQuery(name = "Platform.findByPlatformId", query = "SELECT p FROM Platform p WHERE p.platformId = :platformId"),
@@ -45,7 +45,7 @@ public class Platform implements Serializable {
     @Basic(optional = false)
     @Column(name = "PLATFORM_VERSION", nullable = false, length = 255)
     private String platformVersion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "platform")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "applicationPlatform")
     private List<Application> applicationList;
 
     public Platform() {
@@ -85,6 +85,7 @@ public class Platform implements Serializable {
         this.platformVersion = platformVersion;
     }
 
+    @XmlTransient
     public List<Application> getApplicationList() {
         return applicationList;
     }

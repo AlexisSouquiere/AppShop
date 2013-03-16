@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <validator>
+        <validator-id>cardValidator</validator-id>
+        <validator-class>fr.iut.javaee.appshop.web.validator.CardValidator</validator-class>
+    </validator>
+        
+    <h:body>
+        <ui:composition template="/template/template.xhtml">
+            <ui:define name="content">
+                <div class="row">
+                    <div class="span6"> 
+                        <f:view>
+                            <h1> 
+                                <h:outputText value="Buy the app"/> 
+                            </h1> 
+                            <h:form>  
+                                <h:outputText value="Number card"/> <br/>	
+                                <h:panelGrid columns="2">   
+                                    <h:inputText value="#{purchaseController.numberCard}"
+                                                 required="true" 
+                                                 label="NumberCard"
+                                                 id="numberCard">
+                                        <f:validator validatorId="cardValidator"/>
+                                    </h:inputText>
+                                    <h:message for="numberCard" style="color:red" />
+                                </h:panelGrid> 
+                                
+                                <br></br>
+                                <br></br>
+                                                              
+                                <h:commandButton action="#{purchaseController.doVerification}" 
+                                                 value="Buy"
+                                                 class="btn btn-primary"/>
+                            </h:form>
+                        </f:view>                          
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

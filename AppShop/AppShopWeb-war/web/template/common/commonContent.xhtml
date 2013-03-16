@@ -2,11 +2,35 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
     <ui:composition>
         <div class="hero-unit">
-            <h1>Welcome !</h1>
+            <h1>#{msg.welcome}</h1>
             <p></p>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <h2>#{msg.last_applications}</h2>
+                <ui:repeat class="table" value="#{applicationController.findLastFive()}" var="app">
+                    <h:form>
+                        <h:commandLink action="#{applicationController.findOneById(app.applicationId)}"
+                                         value="#{app.applicationName} #{app.applicationVersion}"/>
+                    </h:form>
+                </ui:repeat>
+            </div>
+            <div class="span6">
+                <h2>#{msg.last_comments}</h2>
+                <ui:repeat class="table" value="#{commentController.findLastFive()}" var="comment">
+                    <h:form>
+                        <h:commandLink action="#{applicationController.findOneById(comment.commentApplication.applicationId)}">
+                            <h:outputText value="#{comment.commentApplication.applicationName} - #{comment.commentBody}"
+                                          converter="substringConverter"/> 
+                        </h:commandLink>
+                    </h:form>
+                </ui:repeat>
+
+            </div>
         </div>
     </ui:composition>
 </html>

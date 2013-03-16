@@ -15,24 +15,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Alexis
  */
 @Entity
-@Table(name = "APPLICATION", schema = "APPSHOP")
+@Table(name = "APPLICATION", catalog = "", schema = "APPSHOP")
 @NamedQueries({
     @NamedQuery(name = "Application.findAll", query = "SELECT a FROM Application a"),
     @NamedQuery(name = "Application.findByApplicationId", query = "SELECT a FROM Application a WHERE a.applicationId = :applicationId"),
@@ -43,10 +41,9 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Application.findByApplicationPrice", query = "SELECT a FROM Application a WHERE a.applicationPrice = :applicationPrice")})
 public class Application implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id    
+    @Id  
     @TableGenerator(name = "SEQ_APPLICATION", schema="APPSHOP", table = "SEQUENCE", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "SEQ_APPLICATION", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy= GenerationType.TABLE, generator="SEQ_APPLICATION")
-    @Basic(optional = false)
     @Column(name = "APPLICATION_ID", nullable = false)
     private Integer applicationId;
     @Column(name = "APPLICATION_RELEASE_DATE")
@@ -60,27 +57,23 @@ public class Application implements Serializable {
     @Basic(optional = false)
     @Column(name = "APPLICATION_VERSION", nullable = false, length = 255)
     private String applicationVersion;
-    //@Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "APPLICATION_PRICE", precision = 52)
     private Double applicationPrice;
-    @JoinTable(name = "APPLICATION_COLLECTION", joinColumns = {
-        @JoinColumn(name = "APPLICATION_COLLECTION_APPLICATION_ID", referencedColumnName = "APPLICATION_ID", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "APPLICATION_COLLECTION_COLLECTION_ID", referencedColumnName = "COLLECTION_ID", nullable = false)})
-    @ManyToMany
-    private List<Collection> collectionList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "application")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rateApplication")
     private List<Rate> rateList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "application")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "applicationCollectionApplication")
+    private List<ApplicationCollection> applicationCollectionList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "purchaseApplication")
     private List<Purchase> purchaseList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "application")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "commentApplication")
     private List<Comment> commentList;
     @JoinColumn(name = "APPLICATION_PLATFORM_ID", referencedColumnName = "PLATFORM_ID", nullable = false)
     @ManyToOne(optional = false)
-    private Platform platform;
+    private Platform applicationPlatform;
     @JoinColumn(name = "APPLICATION_EDITOR_ID", referencedColumnName = "EDITOR_ID", nullable = false)
     @ManyToOne(optional = false)
-    private Editor editor;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "application")
+    private Editor applicationEditor;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "downloadApplication")
     private List<Download> downloadList;
 
     public Application() {
@@ -144,14 +137,7 @@ public class Application implements Serializable {
         this.applicationPrice = applicationPrice;
     }
 
-    public List<Collection> getCollectionList() {
-        return collectionList;
-    }
-
-    public void setCollectionList(List<Collection> collectionList) {
-        this.collectionList = collectionList;
-    }
-
+    @XmlTransient
     public List<Rate> getRateList() {
         return rateList;
     }
@@ -160,6 +146,16 @@ public class Application implements Serializable {
         this.rateList = rateList;
     }
 
+    @XmlTransient
+    public List<ApplicationCollection> getApplicationCollectionList() {
+        return applicationCollectionList;
+    }
+
+    public void setApplicationCollectionList(List<ApplicationCollection> applicationCollectionList) {
+        this.applicationCollectionList = applicationCollectionList;
+    }
+
+    @XmlTransient
     public List<Purchase> getPurchaseList() {
         return purchaseList;
     }
@@ -168,6 +164,7 @@ public class Application implements Serializable {
         this.purchaseList = purchaseList;
     }
 
+    @XmlTransient
     public List<Comment> getCommentList() {
         return commentList;
     }
@@ -176,22 +173,23 @@ public class Application implements Serializable {
         this.commentList = commentList;
     }
 
-    public Platform getApplicationPlatformId() {
-        return platform;
+    public Platform getApplicationPlatform() {
+        return applicationPlatform;
     }
 
-    public void setApplicationPlatformId(Platform platform) {
-        this.platform = platform;
+    public void setApplicationPlatform(Platform applicationPlatformId) {
+        this.applicationPlatform = applicationPlatformId;
     }
 
-    public Editor getApplicationEditorId() {
-        return editor;
+    public Editor getApplicationEditor() {
+        return applicationEditor;
     }
 
-    public void setApplicationEditorId(Editor editor) {
-        this.editor = editor;
+    public void setApplicationEditor(Editor applicationEditorId) {
+        this.applicationEditor = applicationEditorId;
     }
 
+    @XmlTransient
     public List<Download> getDownloadList() {
         return downloadList;
     }

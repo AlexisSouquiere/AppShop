@@ -7,19 +7,10 @@ package fr.iut.javaee.appshop.service.local.impl;
 import fr.iut.javaee.appshop.commons.Collection;
 import fr.iut.javaee.appshop.service.local.CollectionServiceLocal;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
 
 /**
  *
@@ -42,24 +33,20 @@ public class CollectionService implements CollectionServiceLocal
     @Override
     public List<Collection> findCollectionsByMemberId(Integer id) 
     {
-        Query query = em.createNativeQuery("SELECT c FROM COLLECTION c "
-                + "WHERE c.collectionMemberId.memberId = :memberId ");
-        query.setParameter("memberId", id);
-        
-        return query.getResultList();
+        return (List<Collection>)em.createNamedQuery("Collection.findByCollectionUsersId")
+                              .setParameter("collectionUsersId", id)
+                              .getResultList();
     }
     
     @Override
     public void persist(Collection c) 
     {
-        System.out.println("avant persist");
-        em.persist(c);
-        System.out.println("apres persist");
+        em.persist(em.merge(c));
     }
 
     @Override
     public void remove(Collection c) 
     {
-        em.remove(c);
+        em.remove(em.merge(c));
     }  
 }

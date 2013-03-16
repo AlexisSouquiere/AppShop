@@ -16,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -27,7 +26,7 @@ import javax.persistence.TemporalType;
  * @author Alexis
  */
 @Entity
-@Table(name = "DOWNLOAD", schema = "APPSHOP")
+@Table(name = "DOWNLOAD", catalog = "", schema = "APPSHOP")
 @NamedQueries({
     @NamedQuery(name = "Download.findAll", query = "SELECT d FROM Download d"),
     @NamedQuery(name = "Download.findByDownloadId", query = "SELECT d FROM Download d WHERE d.downloadId = :downloadId"),
@@ -44,12 +43,12 @@ public class Download implements Serializable {
     @Column(name = "DOWNLOAD_DATE", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date downloadDate;
-    @JoinColumn(name = "DOWNLOAD_MEMBER_ID", referencedColumnName = "MEMBER_ID", nullable = false)
+    @JoinColumn(name = "DOWNLOAD_USER_ID", referencedColumnName = "USER_ID", nullable = false)
     @ManyToOne(optional = false)
-    private Member1 member;
+    private Users downloadUser;
     @JoinColumn(name = "DOWNLOAD_APPLICATION_ID", referencedColumnName = "APPLICATION_ID", nullable = false)
     @ManyToOne(optional = false)
-    private Application application;
+    private Application downloadApplication;
 
     public Download() {
     }
@@ -79,20 +78,20 @@ public class Download implements Serializable {
         this.downloadDate = downloadDate;
     }
 
-    public Member1 getDownloadMemberId() {
-        return member;
+    public Users getDownloadUser() {
+        return downloadUser;
     }
 
-    public void setDownloadMemberId(Member1 member) {
-        this.member = member;
+    public void setDownloadUser(Users downloadUser) {
+        this.downloadUser = downloadUser;
     }
 
-    public Application getDownloadApplicationId() {
-        return application;
+    public Application getDownloadApplication() {
+        return downloadApplication;
     }
 
-    public void setDownloadApplicationId(Application application) {
-        this.application = application;
+    public void setDownloadApplication(Application downloadApplication) {
+        this.downloadApplication = downloadApplication;
     }
 
     @Override
