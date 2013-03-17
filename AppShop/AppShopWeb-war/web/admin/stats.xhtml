@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>    
+        <ui:composition template="/admin/template/template.xhtml">
+            <ui:define name="content">
+                <h3>Total downloads :</h3>
+                <p>#{downloadController.findDownloadStats()} downloads</p>
+                <h3>Most downloaded application :</h3>
+                <p>#{downloadController.findApplicationMostDownloaded().applicationName}</p>
+                <h3>Most active member :</h3>
+                <p>#{downloadController.findMostActiveMember().userUsername}</p>
+                #{downloadController.computeStats()}
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

@@ -1,12 +1,42 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
     <h:body>
-        Hello from Facelets
+        <ui:composition template="/protected/template/template.xhtml">   
+            <ui:define name="content">
+                <h:dataTable class="table" value="#{downloadController.findCollectionsByUser()}" var="download">
+                    <h:column>
+                        <f:facet name="header" >
+                            <h:outputText value="#{msg['id']}"/>
+                        </f:facet>
+                        <h:outputText value="#{download.downloadId}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header" >
+                            <h:outputText value="#{msg['date']}"/>
+                        </f:facet>
+                        <h:outputText value="#{download.downloadDate}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header" >
+                            <h:outputText value="#{msg['application']}"/>
+                        </f:facet>
+                        <h:outputText value="#{download.downloadApplication.applicationName} 
+                                      #{download.downloadApplication.applicationVersion} "/>
+                    </h:column>    
+                    <h:column>
+                        <f:facet name="header" >
+                            <h:outputText value="#{msg['application_platform']}"/>
+                        </f:facet>
+                        <h:outputText value="#{download.downloadApplication.applicationPlatform.platformName} 
+                                      #{download.downloadApplication.applicationPlatform.platformVersion}"/>
+                    </h:column>            
+                </h:dataTable>
+            </ui:define>
+        </ui:composition>
     </h:body>
 </html>
 

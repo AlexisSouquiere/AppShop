@@ -15,6 +15,12 @@ import javax.ejb.Local;
 @Local
 public interface CommentServiceLocal 
 {
+    public Comment findCommentById(Integer id);
+    
+    public List<Comment> findCommentsByUserId(Integer id);
+    
+    public List<Comment> findAll();
+    
     public List<Comment> findCommentsByApplicationId(Integer id);
     
     public void persist(Comment c);

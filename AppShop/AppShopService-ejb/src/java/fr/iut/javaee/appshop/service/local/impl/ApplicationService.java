@@ -49,10 +49,11 @@ public class ApplicationService implements ApplicationServiceLocal
     @Override
     public List<Application> findApplicationList()
     {
-        Query query = em.createNativeQuery("SELECT application_Name, editor_Id, editor_Name " +
+        Query query = em.createNativeQuery("SELECT APPLICATION_NAME, EDITOR_ID, EDITOR_NAME " +
                 "FROM APPSHOP.APPLICATION INNER JOIN APPSHOP.EDITOR " +
                 "ON APPSHOP.APPLICATION.APPLICATION_EDITOR_ID = APPSHOP.EDITOR.EDITOR_ID " +
-                "GROUP BY application_Name, editor_Id, editor_Name");
+                "GROUP BY APPLICATION_NAME, EDITOR_ID, EDITOR_NAME " +
+                "ORDER BY APPLICATION_NAME ");
         
         List<Application> list = new ArrayList<Application>();
         List<Object[]> res = (List<Object[]>)query.getResultList();

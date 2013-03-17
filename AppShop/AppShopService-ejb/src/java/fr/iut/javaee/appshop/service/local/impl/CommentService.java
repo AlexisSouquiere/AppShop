@@ -55,4 +55,26 @@ public class CommentService implements CommentServiceLocal
         
         return query.setMaxResults(5).getResultList(); 
     }
+    
+    @Override
+    public List<Comment> findAll() {
+        return em.createNamedQuery("Comment.findAll").getResultList();       
+    }
+
+    @Override
+    public Comment findCommentById(Integer id) {
+        return (Comment)em.createNamedQuery("Comment.findByCommentId")
+                .setParameter("commentId", id)
+                .getSingleResult();  
+        
+       
+    }
+
+    @Override
+    public List<Comment> findCommentsByUserId(Integer id) {
+        Query query = em.createQuery("SELECT c FROM Comment c WHERE c.commentUser.userId = :userId ");
+        query.setParameter("userId", id);
+        
+        return query.getResultList();     
+    }
 }

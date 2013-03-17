@@ -38,6 +38,6 @@ public class PurchaseService implements PurchaseServiceLocal
     @Override
     public void persist(Purchase p) 
     {
-        em.persist(p);
+        em.persist(em.merge(p));
     }
 }

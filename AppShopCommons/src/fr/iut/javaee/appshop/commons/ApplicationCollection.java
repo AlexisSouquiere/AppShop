@@ -6,6 +6,7 @@ package fr.iut.javaee.appshop.commons;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +18,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -25,7 +25,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "APPLICATION_COLLECTION", catalog = "", schema = "APPSHOP")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ApplicationCollection.findAll", query = "SELECT a FROM ApplicationCollection a"),
     @NamedQuery(name = "ApplicationCollection.findByApplicationCollectionId", query = "SELECT a FROM ApplicationCollection a WHERE a.applicationCollectionId = :applicationCollectionId")})
@@ -40,7 +39,7 @@ public class ApplicationCollection implements Serializable {
     @ManyToOne(optional = false)
     private Collection applicationCollectionCollection;
     @JoinColumn(name = "APPLICATION_COLLECTION_APPLICATION_ID", referencedColumnName = "APPLICATION_ID", nullable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade= CascadeType.ALL)
     private Application applicationCollectionApplication;
 
     public ApplicationCollection() {

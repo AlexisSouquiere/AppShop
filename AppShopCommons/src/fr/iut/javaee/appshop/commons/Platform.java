@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "PLATFORM", catalog = "", schema = "APPSHOP")
 @NamedQueries({
-    @NamedQuery(name = "Platform.findAll", query = "SELECT p FROM Platform p"),
+    @NamedQuery(name = "Platform.findAll", query = "SELECT p FROM Platform p ORDER BY p.platformName"),
     @NamedQuery(name = "Platform.findByPlatformId", query = "SELECT p FROM Platform p WHERE p.platformId = :platformId"),
     @NamedQuery(name = "Platform.findByPlatformName", query = "SELECT p FROM Platform p WHERE p.platformName = :platformName"),
     @NamedQuery(name = "Platform.findByPlatformVersion", query = "SELECT p FROM Platform p WHERE p.platformVersion = :platformVersion")})

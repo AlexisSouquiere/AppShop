@@ -7,8 +7,66 @@
     
     <ui:composition template="/protected/template/template.xhtml">
         <ui:define name="content">
-            <h2>#{msg['add_collection']}</h2>
+            <h2>#{msg["rename_collection"]}</h2>
+            <h:form>
+                <h:outputText value="#{msg['name']}"/> <br/>	
+                <h:panelGrid columns="2">   
+                    <h:inputText value="#{collectionController.collection.collectionName}"
+                                 required="true"
+                                 id="name"/>
+                    <h:message for="name" style="color:red" />
+                </h:panelGrid> 
+                <h:commandButton action="#{collectionController.rename()}"
+                             value="#{msg['rename']}"/>
+            </h:form>
+            <h2>#{msg['add_collection_application']}</h2>
+            <h:form>
+                <h:outputText value="#{msg['application']}"/> <br/>
+                <h:selectOneMenu value="#{collectionController.app}"
+                                 converter="#{applicationConverter}">
+                    <f:selectItems value="#{collectionController.findApplicationsDownloaded()}" 
+                                   var="app" 
+                                   itemLabel="#{app.applicationName}"
+                                   itemValue="#{app}"/>
+                </h:selectOneMenu> <br/>
+                <h:commandButton action="#{collectionController.addApplication()}"
+                                 value="#{msg['add']}" />
+            </h:form>
             
+            <h:dataTable class="table" value="#{collectionController.collection.applicationCollectionList}" var="app">
+                <h:column>
+                    <f:facet name="header" >
+                        <h:outputText value="#{msg['name']}"/>
+                    </f:facet>
+                    <h:outputText value="#{app.applicationCollectionApplication.applicationName}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header" >
+                        <h:outputText value="#{msg['version']}"/>
+                    </f:facet>
+                    <h:outputText value="#{app.applicationCollectionApplication.applicationVersion}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header" >
+                        <h:outputText value="#{msg['application_platform']}"/>
+                    </f:facet>
+                    <h:outputText value="#{app.applicationCollectionApplication.applicationPlatform.platformName} 
+                                  #{app.applicationCollectionApplication.applicationPlatform.platformVersion}"/>
+                </h:column>
+                <h:column>
+                    <h:form>
+                        <h:commandButton action="#{collectionController.removeApplication(app)}"
+                                         value="#{msg['delete']}"/>
+                    </h:form>
+                </h:column>  
+                <h:column>
+                    <form action="/AppShopWeb-war/applications/downloads/action=DlApp" method="POST">    
+                        <input type="hidden" name="applicationId" value="#{app.applicationCollectionApplication.applicationId}"/>
+                        <input type="hidden" name="userId" value="#{userController.user.userId}"/>
+                        <input type="submit" value="Download" name="btnNext" class="btn btn-info"/>
+                    </form>  
+                </h:column>               
+            </h:dataTable>
         </ui:define>
     </ui:composition>
 </html>

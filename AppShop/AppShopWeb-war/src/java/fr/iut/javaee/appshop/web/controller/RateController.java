@@ -33,12 +33,10 @@ public class RateController
     private Application application;
     
     private int rate = 0;
-    private double average = 0.0;
     
-    @PostConstruct
-    public void findAverageRate()
+    public double findAverage(Application a)
     {
-        average = service.findApplicationRateAverage(application.getApplicationId());
+        return service.findApplicationRateAverage(a.getApplicationId());
     }
     
     public void rateApplication()
@@ -66,12 +64,7 @@ public class RateController
     {
         return rate;
     }
-    
-    public Double getAverage()
-    {
-        return average;
-    }
-    
+        
     public Users getUser() {
         return user;
     }

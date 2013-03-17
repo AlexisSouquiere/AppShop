@@ -7,7 +7,7 @@
     <h:body>
         <ui:composition template="/template/template.xhtml">
             <ui:define name="content">
-                    <p>#{applicationController.application.applicationName}</p>     
+                    <h1>#{applicationController.application.applicationName}</h1>     
                     <p>#{applicationController.application.applicationVersion}</p>
                     <p>#{applicationController.application.applicationReleaseDate}</p>                  
                     <p>#{applicationController.application.applicationEditor.editorName}</p>   
@@ -22,18 +22,16 @@
                     <div class="row">
                         <div class="span6">
                             <f:view>
-                                <h1> 
-                                    <h:outputText value="#{msg['comment']}"/> 
-                                </h1> 
+                                <h2><h:outputText value="#{msg['comment']}"/></h2> 
                                 <h:form>                                
                                     <h:outputText value="#{msg['message']}"/> <br/>
                                     <h:panelGrid columns="2">   
-                                        <h:inputText value="#{commentController.comment}"
-                                                     required="true" 
-                                                     label="#{msg['message']}"
-                                                     id="message"/>
+                                        <h:inputTextarea value="#{commentController.comment}"
+                                                         required="true" label="#{msg['message']}"
+                                                        id="message"/>
                                         <h:message for="message" style="color:red" />
-                                    </h:panelGrid>
+                                        <h:message for="message" style="color:red" />
+                                    </h:panelGrid> 
 
                                     <h:inputHidden value="#{applicationController.application.applicationId}"/>
 
@@ -52,8 +50,9 @@
                                 </ui:repeat>
                             </div>                        
                         </div>
-                        <div class="span6">                            
-                            <h:outputText value="#{rateController.average} / 5"/> <br/>
+                        <div class="span6"> 
+                            <h2><h:outputText value="#{msg['rate_application']}"/></h2>                            
+                            <h:outputText value="#{rateController.findAverage(applicationController.application)} / 5"/> <br/>
                             <h:form>
                                 <h:selectOneMenu value="#{rateController.rate}">
                                     <f:selectItem itemValue="0" itemLabel="0" />
@@ -62,8 +61,8 @@
                                     <f:selectItem itemValue="3" itemLabel="3" />
                                     <f:selectItem itemValue="4" itemLabel="4" />
                                     <f:selectItem itemValue="5" itemLabel="5" />
-                                </h:selectOneMenu>
-                                <h:commandLink action="#{rateController.rateApplication}" value="Noter cette application"/>
+                                </h:selectOneMenu> <br/>
+                                <h:commandButton action="#{rateController.rateApplication}" value="#{msg['rate']}"/>
                             </h:form>
                         </div>
                     </div>

@@ -7,6 +7,7 @@ package fr.iut.javaee.appshop.commons;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -49,7 +50,7 @@ public class Comment implements Serializable {
     @ManyToOne
     private Users commentUser;
     @JoinColumn(name = "COMMENT_APPLICATION_ID", referencedColumnName = "APPLICATION_ID", nullable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade= CascadeType.REMOVE)
     private Application commentApplication;
 
     public Comment() {

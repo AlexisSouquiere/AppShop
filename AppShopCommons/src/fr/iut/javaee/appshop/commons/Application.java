@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "APPLICATION", catalog = "", schema = "APPSHOP")
 @NamedQueries({
-    @NamedQuery(name = "Application.findAll", query = "SELECT a FROM Application a"),
+    @NamedQuery(name = "Application.findAll", query = "SELECT a FROM Application a ORDER BY a.applicationId DESC"),
     @NamedQuery(name = "Application.findByApplicationId", query = "SELECT a FROM Application a WHERE a.applicationId = :applicationId"),
     @NamedQuery(name = "Application.findByApplicationReleaseDate", query = "SELECT a FROM Application a WHERE a.applicationReleaseDate = :applicationReleaseDate"),
     @NamedQuery(name = "Application.findByApplicationWebsite", query = "SELECT a FROM Application a WHERE a.applicationWebsite = :applicationWebsite"),

@@ -67,16 +67,18 @@ public class Users implements Serializable
     @Basic(optional = false)
     @Column(name = "USER_GROUP_NAME", nullable = false, length = 50)
     private String userGroupName;
-    @OneToMany(mappedBy = "rateUser")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rateUser")
     private List<Rate> rateList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "purchaseUser")
     private List<Purchase> purchaseList;
-    @OneToMany(mappedBy = "commentUser")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "commentUser")
     private List<Comment> commentList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "downloadUser")
     private List<Download> downloadList;
-    @OneToMany(mappedBy = "messageUser")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "messageUser")
     private List<Message> messageList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "collectionUsers")
+    private List<Collection> collectionList;
 
     public Users() {
     }
@@ -226,5 +228,12 @@ public class Users implements Serializable
     public void setMessageList(List<Message> messageList) {
         this.messageList = messageList;
     }
+    
+    public List<Collection> getCollectionList() {
+        return collectionList;
+    }
 
+    public void setCollectionList(List<Collection> collectionList) {
+        this.collectionList = collectionList;
+    }
 }

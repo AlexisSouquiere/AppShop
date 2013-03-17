@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "EDITOR", catalog = "", schema = "APPSHOP")
 @NamedQueries({
-    @NamedQuery(name = "Editor.findAll", query = "SELECT e FROM Editor e"),
+    @NamedQuery(name = "Editor.findAll", query = "SELECT e FROM Editor e ORDER BY e.editorName"),
     @NamedQuery(name = "Editor.findByEditorId", query = "SELECT e FROM Editor e WHERE e.editorId = :editorId"),
     @NamedQuery(name = "Editor.findByEditorName", query = "SELECT e FROM Editor e WHERE e.editorName = :editorName"),
     @NamedQuery(name = "Editor.findByEditorDescription", query = "SELECT e FROM Editor e WHERE e.editorDescription = :editorDescription")})

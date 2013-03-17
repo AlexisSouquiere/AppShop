@@ -7,12 +7,12 @@
     <h:body>
         <ui:composition template="/template/template.xhtml">
             <ui:define name="content">
-                    <p>#{applicationController.applications[0].applicationName}</p>
+                    <h1>#{applicationController.applications[0].applicationName}</h1>
                     
                     <h:dataTable class="table" value="#{applicationController.applications}" var="app">
                         <h:column>
                             <f:facet name="header" >
-                                <h:outputText value="Version"/>
+                                <h:outputText value="#{msg['application_version']}"/>
                             </f:facet>
                             <h:form>
                                 <h:commandLink action="#{applicationController.findOneById(app.applicationId)}"
@@ -21,7 +21,7 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header" >
-                                <h:outputText value="Date"/>
+                                <h:outputText value="#{msg['application_release']}"/>
                             </f:facet>
                             <h:form>
                                 <h:outputText value="#{app.applicationReleaseDate}" />
@@ -29,7 +29,7 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header" >
-                                <h:outputText value="Platform"/>
+                                <h:outputText value="#{msg['application_platform']}"/>
                             </f:facet>
                             <h:form>
                                 <h:commandLink action="#{applicationController.findByPlatformId(app.applicationPlatform.platformId)}"
@@ -38,7 +38,7 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header" >
-                                <h:outputText value="Price"/>
+                                <h:outputText value="#{msg['application_price']}"/>
                             </f:facet>
                             <h:form>
                                 <h:outputText value="#{app.applicationPrice}" />

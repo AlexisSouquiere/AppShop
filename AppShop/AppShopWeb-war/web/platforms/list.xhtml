@@ -10,7 +10,7 @@
                 <h:dataTable class="table" value="#{platformController.findAll()}" var="platform">
                     <h:column>
                         <f:facet name="header" >
-                            <h:outputText value="Name"/>
+                            <h:outputText value="#{msg['name']}"/>
                         </f:facet>
                         <h:form>
                             <h:commandLink action="#{applicationController.findByPlatformId(platform.platformId)}"

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.iut.javaee.appshop.converter;
+package fr.iut.javaee.appshop.web.converter;
 
 import fr.iut.javaee.appshop.commons.Platform;
 import fr.iut.javaee.appshop.service.local.PlatformServiceLocal;

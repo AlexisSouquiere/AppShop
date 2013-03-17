@@ -100,8 +100,8 @@ public class DownloadControllerServlet extends HttpServlet
         String applicationId = (String)request.getParameter("applicationId");
         if(applicationId == null) {
             purchase = true;
-            applicationId = (String)request.getParameter("purchaseApplicationId");
-            userId = (String)request.getParameter("purchaseUserId");
+            applicationId = (String)request.getParameter("app");
+            userId = (String)request.getParameter("user");
         }
         application = serviceApp.findOneById(Integer.parseInt(applicationId));  
 

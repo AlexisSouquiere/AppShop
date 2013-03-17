@@ -6,40 +6,44 @@
       xmlns:f="http://java.sun.com/jsf/core">
     <h:body>
         <ui:composition template="/admin/template/template.xhtml">
-            <ui:define name="content">
-                <a href="/AppShopWeb-war/admin/platforms/new.xhtml">#{msg["add_platform"]}</a>
-                
-                <h:dataTable class="table" value="#{platformController.findAll()}" var="platform">
+            <ui:define name="content">                
+                <h:dataTable class="table" value="#{purchaseController.findAll()}" var="purchase">
                     <h:column>
                         <f:facet name="header" >
                             <h:outputText value="#{msg['id']}"/>
                         </f:facet>
-                        <h:outputText value="#{platform.platformId}"/>
+                        <h:outputText value="#{purchase.purchaseId}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header" >
                             <h:outputText value="#{msg['name']}"/>
                         </f:facet>
-                        <h:outputText value="#{platform.platformName}"/>
+                        <h:outputText value="#{purchase.purchaseApplication.applicationName}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header" >
                             <h:outputText value="#{msg['version']}"/>
                         </f:facet>
-                        <h:outputText value="#{platform.platformVersion}"/>
+                        <h:outputText value="#{purchase.purchaseApplication.applicationVersion}"/>
                     </h:column>
                     <h:column>
-                        <h:form>
-                            <h:commandButton action="#{platformController.editOneById(platform.platformId)}"
-                                             value="#{msg['edit']}"/>
-                        </h:form>
+                        <f:facet name="header" >
+                            <h:outputText value="#{msg['username']}"/>
+                        </f:facet>
+                        <h:outputText value="#{purchase.purchaseUser.userUsername}"/>
                     </h:column>
                     <h:column>
-                        <h:form>
-                            <h:commandButton action="#{platformController.remove(platform)}"
-                                             value="#{msg['delete']}"/>
-                        </h:form>
-                    </h:column>               
+                        <f:facet name="header" >
+                            <h:outputText value="#{msg['date']}"/>
+                        </f:facet>
+                        <h:outputText value="#{purchase.purchaseDate}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header" >
+                            <h:outputText value="#{msg['price']}"/>
+                        </f:facet>
+                        <h:outputText value="#{purchase.purchasePrice}"/>
+                    </h:column>             
                 </h:dataTable>
             </ui:define>
         </ui:composition>

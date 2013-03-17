@@ -6,9 +6,11 @@ import fr.iut.javaee.appshop.commons.Users;
 import fr.iut.javaee.appshop.service.local.ApplicationServiceLocal;
 import fr.iut.javaee.appshop.service.local.PurchaseServiceLocal;
 import fr.iut.javaee.appshop.service.local.UserServiceLocal;
+import fr.iut.javaee.appshop.service.soap.client.CreditCardValidator_Service;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -28,8 +30,8 @@ import javax.xml.ws.WebServiceRef;
 @SessionScoped
 public class PurchaseController implements Serializable
 {
-    /*@WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_33412/AppShopWeb-war/ValidatorWS.wsdl")
-    private ValidatorWS_Service service;*/
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/CreditCardValidator/CreditCardValidator.wsdl")
+    private CreditCardValidator_Service service;
     
     @EJB
     private PurchaseServiceLocal purchaseService;
@@ -37,8 +39,8 @@ public class PurchaseController implements Serializable
     private Purchase purchase = new Purchase();    
     private String numberCard = new String();
        
-    @ManagedProperty(value = "#{memberController.member}")
-    private Users member;
+    @ManagedProperty(value = "#{userController.user}")
+    private Users user;
     
     @ManagedProperty(value = "#{applicationController.application}")
     private Application application;
@@ -49,12 +51,16 @@ public class PurchaseController implements Serializable
         purchase = new Purchase();  
         numberCard = new String();
     }
-    
+       
+    public List<Purchase> findAll()
+    {
+        return purchaseService.findAll();
+    }
     
     public void doVerification()
     {   
         try {                      
-            purchase.setPurchaseUser(member); 
+            purchase.setPurchaseUser(user); 
             purchase.setPurchaseApplication(application);
             purchase.setPurchaseDate(new Date());            
             purchase.setPurchasePrice(application.getApplicationPrice());
@@ -64,9 +70,10 @@ public class PurchaseController implements Serializable
             //After persit, redirect in the servlet for download.          
             FacesContext context = FacesContext.getCurrentInstance();
             HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-            request.setAttribute("purchaseApplicationId", application.getApplicationId());
-            request.setAttribute("purchaseUserId", member.getUserId());
-            context.getExternalContext().redirect(request.getContextPath()+ "/DownloadControllerServlet/action=DlApp");        
+            context.getExternalContext().setRequest(request);
+            context.getExternalContext().redirect(request.getContextPath()+ 
+                    "/applications/downloads/action=DlApp?app=" + application.getApplicationId() +
+                    "&user=" + user.getUserId());        
         } 
         catch (IOException ex) {
             Logger.getLogger(PurchaseController.class.getName()).log(Level.SEVERE, null, ex);
@@ -87,29 +94,24 @@ public class PurchaseController implements Serializable
         this.numberCard = num;
     }
     
-    public Users getMember() {
-        return member;
+    public Users getUser() {
+        return user;
     }
 
     public Application getApplication() {
         return application;
     }
 
-    public void setMember(Users member) {
-        this.member = member;
+    public void setUser(Users user) {
+        this.user = user;
     }
 
     public void setApplication(Application application) {
         this.application = application;
     }
-    
-    private boolean validation(java.lang.String card) {       
-        
-       /* ValidatorWS_Service service = new ValidatorWS_Service();
-        fr.iut.javaee.appshop.web.service.soap.client.ValidatorWS port = service.getValidatorWSPort();
-        return port.validation(card);*/
-        return true;
-    }
- 
-            
+
+    public boolean validation(java.lang.String card) {
+        fr.iut.javaee.appshop.service.soap.client.CreditCardValidator port = service.getCreditCardValidatorPort();
+        return port.validation(card);
+    }            
 }
