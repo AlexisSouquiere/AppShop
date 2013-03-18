@@ -29,7 +29,7 @@ public class CommentService implements CommentServiceLocal
     @Override
     public List<Comment> findCommentsByApplicationId(Integer id) 
     {
-        Query query = em.createNativeQuery("SELECT c FROM COMMENT c "
+        Query query = em.createNativeQuery("SELECT c FROM Comment c "
                 + "WHERE c.commentApplicationId.applicationId = :applicationId ");
         query.setParameter("applicationId", id);
         
@@ -69,7 +69,7 @@ public class CommentService implements CommentServiceLocal
     public void persist(Comment c) 
     {
         try {
-            em.persist(c);
+            em.persist(em.merge(c));
         }
         catch(Exception e) {
             logger.log(Level.SEVERE, "Unable to persist the given comment object");
@@ -80,13 +80,13 @@ public class CommentService implements CommentServiceLocal
     public void remove(Comment c) 
     {
         try {
-            em.persist(c);
+            em.persist(em.merge(c));
         }
         catch(Exception e) {
             logger.log(Level.SEVERE, "Unable to remove the given comment object");
         }
     } 
-    
+        
     public void setEM (EntityManager em)
     {
         this.em = em;
