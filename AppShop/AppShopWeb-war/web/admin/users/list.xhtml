@@ -31,13 +31,15 @@
                     <h:column>
                         <h:form>
                             <h:commandButton action="#{userController.editOneById(member.userId)}"
-                                             value="#{msg['edit']}"/>
+                                             value="#{msg['edit']}"
+                                             class="btn btn-warning"/>
                         </h:form>
                     </h:column>
                     <h:column>
                         <h:form>
                             <h:commandButton action="#{userController.remove(member)}"
-                                             value="#{msg['delete']}"/>
+                                             value="#{msg['delete']}"
+                                             class="btn btn-danger"/>
                         </h:form>
                     </h:column>               
                 </h:dataTable>

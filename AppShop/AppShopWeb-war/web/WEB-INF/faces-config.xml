@@ -12,7 +12,7 @@
             <supported-locale>fr</supported-locale>
         </locale-config>
         <resource-bundle>
-            <base-name>fr.iut.javaee.appshop.internationalization.messages</base-name>
+            <base-name>fr.iut.javaee.appshop.web.internationalization.messages</base-name>
             <var>msg</var>
         </resource-bundle>
     </application>

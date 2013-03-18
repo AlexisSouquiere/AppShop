@@ -17,7 +17,8 @@
                         <h:message for="name" style="color:red" />
                     </h:panelGrid> 
                     <h:commandButton action="#{collectionController.add()}"
-                                 value="#{msg['add']}"/>
+                                     value="#{msg['add']}"
+                                     class="btn btn-primary"/>
                 </h:form>
                 
                 <h:dataTable class="table" value="#{collectionController.findCollectionsByUserId()}" var="collection">
@@ -36,13 +37,15 @@
                     <h:column>
                         <h:form>
                             <h:commandButton action="#{collectionController.editOneById(collection.collectionId)}"
-                                             value="#{msg['edit']}"/>
+                                             value="#{msg['edit']}"
+                                             class="btn btn-warning"/>
                         </h:form>
                     </h:column>
                     <h:column>
                         <h:form>
                             <h:commandButton action="#{collectionController.remove()}"
-                                             value="#{msg['delete']}"/>
+                                             value="#{msg['delete']}"
+                                             class="btn btn-danger"/>
                         </h:form>
                     </h:column>               
                 </h:dataTable>

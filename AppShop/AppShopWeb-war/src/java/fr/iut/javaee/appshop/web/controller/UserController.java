@@ -49,11 +49,11 @@ public class UserController implements Serializable
     {
         if(user.getUserGroupName().equals("Admin")){
             managedUser = service.findOneById(id);
-            return "/admin/users/user.xhtml";
+            return "/admin/users/user.xhtml?faces-redirect=true";
         }
         else if (user.getUserGroupName().equals("Member")) {
             user = service.findOneById(id);
-            return "/protected/account.xhtml";            
+            return "/protected/account.xhtml?faces-redirect=true";            
         }
         
         return null;

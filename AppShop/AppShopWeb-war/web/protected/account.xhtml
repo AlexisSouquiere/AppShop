@@ -64,9 +64,11 @@
                                 </h:panelGrid>  
                                 
                                 <h:commandButton action="#{userController.update(userController.user)}" 
-                                                 value="#{msg['save']}"/>
+                                                 value="#{msg['save']}"
+                                                 class="btn btn-warning"/>
                                 <h:commandButton action="#{userController.remove(userController.user)}" 
-                                                 value="#{msg['delete']}"/>
+                                                 value="#{msg['delete']}"
+                                                 class="btn btn-danger"/>
                             </h:form>
                         </f:view>                         
                     </div>

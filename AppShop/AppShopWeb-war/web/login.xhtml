@@ -11,48 +11,9 @@
                     <div class="span6">
                         <f:view>
                             <h1> 
-                                <h:outputText value="#{msg['sign']}"/> 
-                            </h1> 
-                            <h:form>
-                                <div id="loginBox">
-                                    <h:outputText value="#{msg['username']}"/> <br/>
-                                    <h:panelGrid columns="2">   
-                                        <h:inputText value="#{userController.user.userUsername}"
-                                                     required="true" 
-                                                     label="#{msg['username']}"
-                                                     id="username"/>
-                                        <h:message for="username" style="color:red" />
-                                    </h:panelGrid> 
-
-                                    <h:outputText value="#{msg['password']}"/> <br/>
-                                    <h:panelGrid columns="2">   
-                                        <h:inputSecret value="#{userController.user.userPassword}"
-                                                     required="true" 
-                                                     label="#{msg['password']}"
-                                                     id="password"/>
-                                        <h:message for="password" style="color:red" />
-                                    </h:panelGrid>
-  
-                                    <h:commandButton value="Login" action="#{userController.doLogin}"/>  
-                                </div>
-                            </h:form>
-                        </f:view>                          
-                    </div>
-                    <div class="span6">
-                        <f:view>
-                            <h1> 
                                 <h:outputText value="#{msg['register']}"/> 
                             </h1> 
-                            <h:form>  
-                                <h:outputText value="#{msg['firstname']}"/> <br/>	
-                                <h:panelGrid columns="2">   
-                                    <h:inputText value="#{userController.managedUser.userFirstname}"
-                                                 required="true" 
-                                                 label="#{msg['firstname']}"
-                                                 id="firstname"/>
-                                    <h:message for="firstname" style="color:red" />
-                                </h:panelGrid> 
-                                
+                            <h:form>                                  
                                 <h:outputText value="#{msg['lastname']}"/> <br/>		
                                 <h:panelGrid columns="2">   
                                     <h:inputText value="#{userController.managedUser.userLastname}"
@@ -61,6 +22,15 @@
                                                  id="lastname"/>
                                     <h:message for="lastname" style="color:red" />
                                 </h:panelGrid>   
+                                
+                                <h:outputText value="#{msg['firstname']}"/> <br/>	
+                                <h:panelGrid columns="2">   
+                                    <h:inputText value="#{userController.managedUser.userFirstname}"
+                                                 required="true" 
+                                                 label="#{msg['firstname']}"
+                                                 id="firstname"/>
+                                    <h:message for="firstname" style="color:red" />
+                                </h:panelGrid> 
                                 
                                 <h:outputText value="#{msg['birthdate']}"/> <br/>		
                                 <h:panelGrid columns="2">                            
@@ -100,9 +70,40 @@
                                 </h:panelGrid>
                                 
                                 <h:commandButton action="#{userController.doRegister}" 
-                                                 value="#{msg['register']}"/>
+                                                 value="#{msg['register']}"
+                                                 class="btn btn-primary"/>
                             </h:form>
                         </f:view> 
+                    </div>
+                    <div class="span6">
+                        <f:view>
+                            <h1> 
+                                <h:outputText value="#{msg['sign']}"/> 
+                            </h1> 
+                            <h:form>
+                                <h:outputText value="#{msg['username']}"/> <br/>
+                                <h:panelGrid columns="2">   
+                                    <h:inputText value="#{userController.user.userUsername}"
+                                                 required="true" 
+                                                 label="#{msg['username']}"
+                                                 id="username"/>
+                                    <h:message for="username" style="color:red" />
+                                </h:panelGrid> 
+
+                                <h:outputText value="#{msg['password']}"/> <br/>
+                                <h:panelGrid columns="2">   
+                                    <h:inputSecret value="#{userController.user.userPassword}"
+                                                 required="true" 
+                                                 label="#{msg['password']}"
+                                                 id="password"/>
+                                    <h:message for="password" style="color:red" />
+                                </h:panelGrid>
+
+                                <h:commandButton value="Login" 
+                                                 action="#{userController.doLogin}"
+                                                 class="btn btn-primary"/>  
+                            </h:form>
+                        </f:view>                          
                     </div>
                 </div>
             </ui:define>

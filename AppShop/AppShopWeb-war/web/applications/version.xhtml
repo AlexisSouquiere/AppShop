@@ -8,15 +8,15 @@
         <ui:composition template="/template/template.xhtml">
             <ui:define name="content">
                     <h1>#{applicationController.application.applicationName}</h1>     
-                    <p>#{applicationController.application.applicationVersion}</p>
-                    <p>#{applicationController.application.applicationReleaseDate}</p>                  
-                    <p>#{applicationController.application.applicationEditor.editorName}</p>   
-                    <p>#{applicationController.application.applicationPrice}</p>
+                    <strong>#{msg['application_version']} : </strong><p>#{applicationController.application.applicationVersion}</p>
+                    <strong>#{msg['application_release']} : </strong><p>#{applicationController.application.applicationReleaseDate}</p>                  
+                    <strong>#{msg['application_editor']} : </strong><p>#{applicationController.application.applicationEditor.editorName}</p>   
+                    <strong>#{msg['application_price']} : </strong><p>#{applicationController.application.applicationPrice}</p>
                     
                     <form action="downloads/action=DlApp" method="POST">    
                         <input type="hidden" name="applicationId" value="#{applicationController.application.applicationId}"/>
                         <input type="hidden" name="userId" value="#{userController.user.userId}"/>
-                        <input type="submit" value="Download" name="btnNext" class="btn btn-info"/>
+                        <input type="submit" value="Download" name="btnNext" class="btn btn-primary"/>
                     </form>    
                             
                     <div class="row">
@@ -36,7 +36,8 @@
                                     <h:inputHidden value="#{applicationController.application.applicationId}"/>
 
                                     <h:commandButton action="#{commentController.postComment}" 
-                                                     value="#{msg['postComment']}"/>
+                                                     value="#{msg['postComment']}"
+                                                     class="btn btn-primary"/>
                                 </h:form>
                             </f:view>  
                             <div>
@@ -62,7 +63,9 @@
                                     <f:selectItem itemValue="4" itemLabel="4" />
                                     <f:selectItem itemValue="5" itemLabel="5" />
                                 </h:selectOneMenu> <br/>
-                                <h:commandButton action="#{rateController.rateApplication}" value="#{msg['rate']}"/>
+                                <h:commandButton action="#{rateController.rateApplication}" 
+                                                 value="#{msg['rate']}"
+                                                 class="btn btn-primary"/>
                             </h:form>
                         </div>
                     </div>

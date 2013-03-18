@@ -7,6 +7,7 @@
     <h:body>
         <ui:composition template="/template/template.xhtml">
             <ui:define name="content">
+                <h1>#{msg['all_applications']}</h1>
                 <h:dataTable class="table" value="#{applicationController.applications}" var="app">
                     <h:column>
                         <f:facet name="header" >

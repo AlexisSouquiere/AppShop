@@ -5,7 +5,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core">
     
-    <ui:composition template="/protected/template/template.xhtml">
+    <ui:composition template="/admin/template/template.xhtml">
         <ui:define name="content">
             <h2>#{msg['member_edit']}</h2>
             <h:form>
@@ -53,10 +53,11 @@
                 <h:selectOneMenu value="#{userController.managedUser.userGroupName}">
                     <f:selectItem itemValue="Admin" itemLabel="Administrator" />
                     <f:selectItem itemValue="Member" itemLabel="Member" />
-                </h:selectOneMenu>
+                </h:selectOneMenu> <br/>
                 
                 <h:commandButton action="#{userController.update(userController.managedUser)}"
-                                 value="#{msg['update']}"/>
+                                 value="#{msg['update']}"
+                                 class="btn btn-warning"/>
             </h:form>
         </ui:define>
     </ui:composition>

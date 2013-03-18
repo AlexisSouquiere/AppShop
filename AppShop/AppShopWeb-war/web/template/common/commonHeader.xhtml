@@ -47,17 +47,20 @@
                                                        value="#{msg['menu_logout']}" />
                                     </h:form>
                                 </li>
+                                <li>
+                                    <h:form>
+                                        <h:commandLink action="#{languageController.changeCountryLocale('en')}" 
+                                                       value="EN" /> 
+                                        |
+                                        <h:commandLink action="#{languageController.changeCountryLocale('fr')}" 
+                                                       value="FR" />
+                                    </h:form>                                      
+                                </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-            </div>         
-            <h:form>
-                <h:commandLink action="#{languageController.changeCountryLocale('en')}" 
-                               value="EN" />
-                <h:commandLink action="#{languageController.changeCountryLocale('fr')}" 
-                               value="FR" />
-            </h:form>      
+            </div>             
             
         </ui:composition>
     </h:body>
