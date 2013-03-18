@@ -47,4 +47,9 @@ public class PlateformService implements PlatformServiceLocal
     {
         em.remove(em.merge(p));
     }  
+    
+    public void setEM(EntityManager em)
+    {
+        this.em = em;
+    }
 }

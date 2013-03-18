@@ -87,6 +87,7 @@ public class UserController implements Serializable
         try {
             ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();   
             ((HttpServletRequest) ctx.getRequest()).logout();
+            ctx.invalidateSession();
             user = new Users();
             ctx.redirect("/AppShopWeb-war/index.xhtml?face-redirect=true");
         } catch (IOException ex) {
@@ -98,6 +99,7 @@ public class UserController implements Serializable
     
     public String doRegister() 
     {
+        managedUser.setUserGroupName("Member");
         service.persist(managedUser);
         managedUser = new Users();
         

@@ -37,7 +37,7 @@
                                     <h:inputText id="date" value="#{userController.managedUser.userBirthdate}" 
                                           size="20" required="true"
                                           label="#{msg['birthdate']}" >
-                                          <f:convertDateTime pattern="#{ms['dateFormat']}" />
+                                          <f:convertDateTime pattern="#{msg['dateFormat']}" />
                                     </h:inputText>
                                     <h:message for="date" style="color:red" />
                                 </h:panelGrid>

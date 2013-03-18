@@ -57,4 +57,10 @@ public class UserService implements UserServiceLocal
     {
         em.remove(em.merge(u));
     }
+    
+    @Override
+    public void setEM(EntityManager em)
+    {
+        this.em = em;
+    }
 }

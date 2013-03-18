@@ -145,7 +145,7 @@ public class DownloadService implements DownloadServiceLocal
         }
     }    
     
-    //@Schedule(dayOfWeek="Mon")
+    @Schedule(dayOfWeek="Mon")
     public void computeStats() 
     {
         Calendar cal = Calendar.getInstance();

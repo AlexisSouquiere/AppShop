@@ -7,6 +7,7 @@ package fr.iut.javaee.appshop.service.local;
 import fr.iut.javaee.appshop.commons.Rate;
 import java.util.List;
 import javax.ejb.Local;
+import javax.persistence.EntityManager;
 
 /**
  *
@@ -18,4 +19,6 @@ public interface RateServiceLocal
     public Double findApplicationRateAverage(int id);  
     
     public void persist(Rate r);
+    
+    public void setEM(EntityManager em);
 }

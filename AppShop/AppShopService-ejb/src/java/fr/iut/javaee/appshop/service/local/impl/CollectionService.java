@@ -48,5 +48,11 @@ public class CollectionService implements CollectionServiceLocal
     public void remove(Collection c) 
     {
         em.remove(em.merge(c));
-    }  
+    } 
+    
+    @Override
+    public void setEM(EntityManager em)
+    {
+        this.em = em;
+    }
 }

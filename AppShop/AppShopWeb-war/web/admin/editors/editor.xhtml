@@ -9,6 +9,7 @@
         <ui:define name="content">
             <h2>#{msg['editor_edit']}</h2>
             <h:form>
+                <h:inputHidden value="#{editorController.editor.editorId}" />
                 <h:outputText value="#{msg['name']}"/> <br/>	
                 <h:panelGrid columns="2">   
                     <h:inputText value="#{editorController.editor.editorName}"

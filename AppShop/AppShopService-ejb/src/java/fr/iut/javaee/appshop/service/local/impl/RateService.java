@@ -21,7 +21,6 @@ public class RateService implements RateServiceLocal
     @PersistenceContext(unitName="AppShopCommonsPU")
     private EntityManager em;
 
-    
     @Override
     public void persist(Rate r) 
     {
@@ -35,5 +34,10 @@ public class RateService implements RateServiceLocal
         q.setParameter("paramID", id);  
         Double rate = (Double) q.getSingleResult();
         return rate != null ? rate : 5;
+    }
+    
+    public void setEM(EntityManager em)
+    {
+        this.em = em;
     }
 }

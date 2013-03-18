@@ -6,7 +6,7 @@ import fr.iut.javaee.appshop.commons.Users;
 import fr.iut.javaee.appshop.service.local.ApplicationServiceLocal;
 import fr.iut.javaee.appshop.service.local.PurchaseServiceLocal;
 import fr.iut.javaee.appshop.service.local.UserServiceLocal;
-import fr.iut.javaee.appshop.service.soap.client.CreditCardValidator_Service;
+import fr.iut.javaee.appshop.web.service.soap.client.CreditCardValidator_Service;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
@@ -111,7 +111,7 @@ public class PurchaseController implements Serializable
     }
 
     public boolean validation(java.lang.String card) {
-        fr.iut.javaee.appshop.service.soap.client.CreditCardValidator port = service.getCreditCardValidatorPort();
+        fr.iut.javaee.appshop.web.service.soap.client.CreditCardValidator port = service.getCreditCardValidatorPort();
         return port.validation(card);
     }            
 }

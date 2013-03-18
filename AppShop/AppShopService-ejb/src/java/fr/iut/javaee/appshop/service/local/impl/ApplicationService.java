@@ -159,13 +159,15 @@ public class ApplicationService implements ApplicationServiceLocal
         
         for(Users u : users)
         {
-            Message m = new Message();
-            m.setMessageUser(u);
-            String body = String.format("%s %s : #{msg['notitfy_update']}", a.getApplicationName(), a.getApplicationVersion());
-            m.setMessageBody(body);
-            m.setMessageDate(new Date(System.currentTimeMillis()));
-            
-            serviceMessage.persist(m);
+            if(u != null) {
+                Message m = new Message();
+                m.setMessageUser(u);
+                String body = String.format("%s %s : ", a.getApplicationName(), a.getApplicationVersion());
+                m.setMessageBody(body);
+                m.setMessageDate(new Date(System.currentTimeMillis()));
+
+                serviceMessage.persist(m);
+            }
         }
     }
 
@@ -176,5 +178,10 @@ public class ApplicationService implements ApplicationServiceLocal
                 + "ORDER BY a.applicationId DESC");
         
         return query.setMaxResults(5).getResultList();        
+    }
+    
+    public void setEM(EntityManager em)
+    {
+        this.em = em;
     }
 }

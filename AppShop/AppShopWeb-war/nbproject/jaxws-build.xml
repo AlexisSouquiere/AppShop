@@ -61,5 +61,21 @@
         <delete dir="${build.generated.sources.dir}/jax-ws/fr/iut/javaee/appshop/service/soap/client"/>
         <delete dir="${build.generated.dir}/jax-wsCache/CreditCardValidator"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-CreditCardValidator"/>
+    <target name="wsimport-client-CreditCardValidator_1" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/CreditCardValidator_1"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/CreditCardValidator_1" destdir="${build.generated.dir}/jax-wsCache/CreditCardValidator_1" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/CreditCardValidator_1/wsdl/localhost_8080/CreditCardValidator/CreditCardValidator.wsdl" catalog="catalog.xml" extension="true" verbose="true" wsdlLocation="http://localhost:8080/CreditCardValidator/CreditCardValidator?wsdl" xnocompile="true" xendorsed="true" package="fr.iut.javaee.appshop.web.service.soap.client">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/CreditCardValidator_1/wsdl/localhost_8080/CreditCardValidator/CreditCardValidator.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/CreditCardValidator_1"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/CreditCardValidator_1">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-CreditCardValidator_1" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/fr/iut/javaee/appshop/web/service/soap/client"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/CreditCardValidator_1"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-CreditCardValidator, wsimport-client-CreditCardValidator_1"/>
 </project>

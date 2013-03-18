@@ -9,6 +9,7 @@
         <ui:define name="content">
             <h2>#{msg['platform_edit']}</h2>
             <h:form>
+                <h:inputHidden value="#{platformController.platform.platformId}" />
                 <h:outputText value="#{msg['name']}"/> <br/>	
                 <h:panelGrid columns="2">   
                     <h:inputText value="#{platformController.platform.platformName}"

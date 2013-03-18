@@ -7,6 +7,7 @@ package fr.iut.javaee.appshop.service.local;
 import fr.iut.javaee.appshop.commons.Editor;
 import java.util.List;
 import javax.ejb.Local;
+import javax.persistence.EntityManager;
 
 /**
  *
@@ -22,4 +23,6 @@ public interface EditorServiceLocal
     public void persist(Editor e);
     
     public void remove(Editor e);
+    
+    public void setEM(EntityManager em);
 }

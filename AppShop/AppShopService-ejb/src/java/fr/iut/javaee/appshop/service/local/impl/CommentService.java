@@ -7,14 +7,10 @@ package fr.iut.javaee.appshop.service.local.impl;
 import fr.iut.javaee.appshop.commons.Comment;
 import fr.iut.javaee.appshop.service.local.CommentServiceLocal;
 import java.util.List;
-import javax.annotation.security.DeclareRoles;
-import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
-import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.UserTransaction;
 
 /**
  *
@@ -34,18 +30,7 @@ public class CommentService implements CommentServiceLocal
         query.setParameter("applicationId", id);
         
         return query.getResultList();        
-    }
-    
-    @Override
-    public void persist(Comment c) 
-    {
-        em.persist(c);
-    }
-
-    @Override
-    public void remove(Comment c) {
-        em.persist(c);
-    }    
+    }   
 
     @Override
     public List<Comment> findLastFiveCommentsAdded() 
@@ -65,9 +50,7 @@ public class CommentService implements CommentServiceLocal
     public Comment findCommentById(Integer id) {
         return (Comment)em.createNamedQuery("Comment.findByCommentId")
                 .setParameter("commentId", id)
-                .getSingleResult();  
-        
-       
+                .getSingleResult();       
     }
 
     @Override
@@ -76,5 +59,21 @@ public class CommentService implements CommentServiceLocal
         query.setParameter("userId", id);
         
         return query.getResultList();     
+    }
+    
+    @Override
+    public void persist(Comment c) 
+    {
+        em.persist(c);
+    }
+
+    @Override
+    public void remove(Comment c) {
+        em.persist(c);
+    } 
+    
+    public void setEM (EntityManager em)
+    {
+        this.em = em;
     }
 }

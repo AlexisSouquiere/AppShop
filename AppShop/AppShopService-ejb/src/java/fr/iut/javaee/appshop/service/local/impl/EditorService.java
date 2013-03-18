@@ -46,4 +46,9 @@ public class EditorService implements EditorServiceLocal
     {
         em.remove(em.merge(e));
     }
+    
+    public void setEM(EntityManager em)
+    {
+        this.em = em;
+    }
 }

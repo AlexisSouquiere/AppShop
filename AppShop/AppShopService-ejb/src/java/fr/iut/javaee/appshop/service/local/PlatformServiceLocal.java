@@ -7,6 +7,7 @@ package fr.iut.javaee.appshop.service.local;
 import fr.iut.javaee.appshop.commons.Platform;
 import java.util.List;
 import javax.ejb.Local;
+import javax.persistence.EntityManager;
 
 /**
  *
@@ -22,4 +23,6 @@ public interface PlatformServiceLocal
     public void persist(Platform p);
     
     public void remove(Platform p);
+    
+    public void setEM(EntityManager em);
 }

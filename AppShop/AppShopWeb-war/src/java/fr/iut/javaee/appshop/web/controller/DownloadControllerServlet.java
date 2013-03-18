@@ -137,7 +137,7 @@ public class DownloadControllerServlet extends HttpServlet
             rd = request.getRequestDispatcher("/download/confirmDownload.jsp");  
         } 
         else {
-            if(userId != null) {
+            if(userId != "") {
                 rd = request.getRequestDispatcher("/download/purchase.xhtml");
             }
             else {

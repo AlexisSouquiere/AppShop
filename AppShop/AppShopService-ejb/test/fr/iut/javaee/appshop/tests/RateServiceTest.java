@@ -4,13 +4,11 @@
  */
 package fr.iut.javaee.appshop.tests;
 
-import fr.iut.javaee.appshop.commons.Application;
-import fr.iut.javaee.appshop.service.local.ApplicationServiceLocal;
-import fr.iut.javaee.appshop.service.local.impl.ApplicationService;
+import fr.iut.javaee.appshop.service.local.RateServiceLocal;
+import fr.iut.javaee.appshop.service.local.impl.RateService;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -26,13 +24,13 @@ import org.hsqldb.Server;
  *
  * @author Alexis
  */
-public class ApplicationServiceTest 
+public class RateServiceTest 
 {
     Server hsqlServer = null;
     Connection connection = null;
-    ApplicationServiceLocal service = new ApplicationService();
+    RateServiceLocal service = new RateService();
     
-    public ApplicationServiceTest() 
+    public RateServiceTest() 
     {
         hsqlServer = new Server();
 
@@ -89,6 +87,28 @@ public class ApplicationServiceTest
             ).execute();
             
             connection.prepareStatement(
+                "CREATE TABLE APPSHOP.RATE ( " +
+                "RATE_ID INTEGER NOT NULL, " +
+                "RATE INTEGER NOT NULL, " +
+                "RATE_APPLICATION_ID INTEGER NOT NULL, " +
+                "RATE_USER_ID INTEGER, " +
+                "PRIMARY KEY (RATE_ID));"
+            ).execute();
+            
+            connection.prepareStatement(
+                "CREATE TABLE APPSHOP.USERS ( " +
+                "USER_ID INTEGER NOT NULL, " +
+                "USER_LASTNAME VARCHAR(255), " +
+                "USER_USERNAME VARCHAR(255) NOT NULL, " +
+                "USER_EMAIL VARCHAR(255) NOT NULL, " +
+                "USER_BIRTHDATE DATE, " + 
+                "USER_FIRSTNAME VARCHAR(255) NOT NULL, " +
+                "USER_PASSWORD VARCHAR(255) NOT NULL, " + 
+                "USER_GROUP_NAME VARCHAR(50) NOT NULL, " +
+                "PRIMARY KEY (USER_ID));"
+            ).execute();
+            
+            connection.prepareStatement(
                 "ALTER TABLE APPSHOP.APPLICATION " +
                     "ADD FOREIGN KEY (APPLICATION_PLATFORM_ID) " +
                     "REFERENCES APPSHOP.PLATFORM (PLATFORM_ID); "
@@ -98,20 +118,41 @@ public class ApplicationServiceTest
                 "ALTER TABLE APPSHOP.APPLICATION " +
                     "ADD FOREIGN KEY (APPLICATION_EDITOR_ID) " +
                     "REFERENCES APPSHOP.EDITOR (EDITOR_ID);"
+            ).execute();   
+            
+            connection.prepareStatement(
+                "ALTER TABLE APPSHOP.RATE " +
+                "ADD FOREIGN KEY (RATE_APPLICATION_ID) " +
+                "REFERENCES APPSHOP.APPLICATION (APPLICATION_ID);"
             ).execute();  
             
             connection.prepareStatement(
-                "INSERT INTO APPSHOP.EDITOR(EDITOR_ID, EDITOR_NAME, EDITOR_DESCRIPTION) VALUES (1, 'Microsoft', 'Microsoft');"
+                "ALTER TABLE APPSHOP.RATE " +
+                "ADD FOREIGN KEY (RATE_USER_ID) " +
+                "REFERENCES APPSHOP.USERS (USER_ID);"
+            ).execute();  
+            
+            connection.prepareStatement(
+                "INSERT INTO APPSHOP.EDITOR VALUES (1, 'Microsoft', 'Microsoft');"
             ).execute();
             connection.prepareStatement(
-                "INSERT INTO APPSHOP.PLATFORM(PLATFORM_ID, PLATFORM_NAME, PLATFORM_VERSION) VALUES (1, 'Windows', 'XP');"
+                "INSERT INTO APPSHOP.PLATFORM VALUES (1, 'Windows', 'XP');"
             ).execute();
             
             connection.prepareStatement(
-                "INSERT INTO APPSHOP.APPLICATION(APPLICATION_ID, APPLICATION_RELEASE_DATE, APPLICATION_WEBSITE, APPLICATION_NAME, APPLICATION_VERSION, APPLICATION_PLATFORM_ID, APPLICATION_PRICE, APPLICATION_EDITOR_ID) VALUES (2, '2011-07-02', null, 'Winamp', '1.0', 1, 19.95, 1);"
+                "INSERT INTO APPSHOP.APPLICATION VALUES (2, '2011-07-02', null, 'Winamp', '1.0', 1, 19.95, 1);"
             ).execute();
+            
             connection.prepareStatement(
-                "INSERT INTO APPSHOP.APPLICATION(APPLICATION_ID, APPLICATION_RELEASE_DATE, APPLICATION_WEBSITE, APPLICATION_NAME, APPLICATION_VERSION, APPLICATION_PLATFORM_ID, APPLICATION_PRICE, APPLICATION_EDITOR_ID) VALUES (1, '2010-09-03', null, 'Microsoft Office', '2010', 1, 120, 1);"
+                "INSERT INTO APPSHOP.RATE (RATE_ID, RATE, RATE_APPLICATION_ID) VALUES (1, 2, 2);"
+            ).execute();
+            
+            connection.prepareStatement(
+                "INSERT INTO APPSHOP.RATE (RATE_ID, RATE, RATE_APPLICATION_ID) VALUES (2, 4, 2);"
+            ).execute();
+            
+            connection.prepareStatement(
+                "INSERT INTO APPSHOP.RATE (RATE_ID, RATE, RATE_APPLICATION_ID) VALUES (3, 5, 2);"
             ).execute();
             
            EntityManagerFactory emf = 
@@ -120,10 +161,10 @@ public class ApplicationServiceTest
            service.setEM(em);
         } 
         catch (SQLException ex) {
-            Logger.getLogger(ApplicationServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RateServiceTest.class.getName()).log(Level.SEVERE, null, ex);
         } 
         catch (ClassNotFoundException ex) {
-            Logger.getLogger(ApplicationServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RateServiceTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -133,57 +174,15 @@ public class ApplicationServiceTest
             connection.close();
             hsqlServer.shutdown();
         } catch (SQLException ex) {
-            Logger.getLogger(ApplicationServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RateServiceTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     @Test
-    public void findAllTest() 
+    public void findApplicationRateAverageTest() 
     {   
-        //Find all the applications ordered by id desc
-        List<Application> applications = service.findAll();
-        assertEquals(2, applications.size());      
-        assertEquals("Winamp", applications.get(0).getApplicationName());
-    }
-    
-    @Test
-    public void findApplicationListTest() 
-    {   
-        //Find all the applications ordered by name
-        List<Application> applications = service.findApplicationList();
-        assertEquals(2, applications.size());  
-        assertEquals("Microsoft Office", applications.get(0).getApplicationName());
-    }
-    
-    @Test
-    public void findApplicationByIdTest() 
-    {   
-        //Find an application by its id
-        Application application = service.findOneById(2);
-        assertEquals("Winamp", application.getApplicationName());
-    }
-    
-    @Test
-    public void findApplicationsByPlatformIdTest() 
-    {   
-        //Find all the applications having the same platform
-        List<Application> applications = service.findApplicationsByPlatformId(1);
-        assertEquals(2, applications.size());  
-    }
-    
-    @Test
-    public void findApplicationsByEditorIdTest() 
-    {   
-        //Find all the applications having the same editor
-        List<Application> applications = service.findApplicationsByEditorId(1);
-        assertEquals(2, applications.size());  
-    }
-    
-    @Test
-    public void findLastFiveApplicationsAddedTest() 
-    {   
-        //Find the last five applications added
-        List<Application> applications = service.findLastFiveApplicationsAdded();
-        assertEquals(2, applications.size());  
+        //3 rates : 3, 2, 1 /5 => Average : 3.6
+        Double average = service.findApplicationRateAverage(2);
+        assertEquals(3.6, average, 0.1);      
     }
 }
