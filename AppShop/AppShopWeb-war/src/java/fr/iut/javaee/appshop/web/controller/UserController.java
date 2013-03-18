@@ -69,7 +69,7 @@ public class UserController implements Serializable
                 ctx.redirect("/AppShopWeb-war/admin/index.xhtml");  
             }
             else {
-                ctx.redirect("/AppShopWeb-war/protected/index.xhtml");
+                ctx.redirect("/AppShopWeb-war/index.xhtml");
             }  
         } 
         catch (ServletException e) {  
