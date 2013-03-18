@@ -8,6 +8,8 @@ import fr.iut.javaee.appshop.commons.ApplicationCollection;
 import fr.iut.javaee.appshop.commons.Collection;
 import fr.iut.javaee.appshop.service.local.ApplicationCollectionServiceLocal;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,6 +24,8 @@ public class ApplicationCollectionService implements ApplicationCollectionServic
     @PersistenceContext(unitName="AppShopCommonsPU")
     private EntityManager em;
     
+    Logger logger = Logger.getLogger(DownloadService.class.getName());
+    
     @Override
     public List<ApplicationCollection> findApplicationsByCollectionId(Integer id) 
     {
@@ -33,12 +37,22 @@ public class ApplicationCollectionService implements ApplicationCollectionServic
     @Override
     public void add(ApplicationCollection a) 
     {
-        em.persist(em.merge(a));
+        try {
+            em.persist(em.merge(a));
+        }
+        catch(Exception e) {
+            logger.log(Level.SEVERE, "Unable to persist the given application object");
+        }
     }
     
     @Override
     public void remove(ApplicationCollection a) 
     {
-        em.remove(em.merge(a));
+        try {
+            em.remove(em.merge(a));
+        }
+        catch(Exception e) {
+            logger.log(Level.SEVERE, "Unable to remove the given application object");
+        }
     }
 }

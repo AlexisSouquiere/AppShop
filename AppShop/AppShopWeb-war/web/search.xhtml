@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <validator>
+        <validator-id>searchValidator</validator-id>
+        <validator-class>fr.iut.javaee.appshop.validator.SearchValidator</validator-class>
+    </validator>
+    
+    <h:body>
+        <ui:composition template="/template/template.xhtml">
+            <ui:define name="content">
+                <div class="row">
+                    <div class="span6">
+                        <f:view>
+                            <h1> 
+                                <h:outputText value="Search Application"/> 
+                            </h1> 
+                            <h:form>
+                                <div id="searchBox">
+                                    <h:outputText value="Search" style="width: 50px"/>  
+                                    <h:panelGrid columns="2">
+                                        <h:inputText value="#{applicationController.searchValue}" 
+                                                     style="width: 100px"
+                                                     required="true" 
+                                                     label="SearchValue"
+                                                     id="searchValue"> 
+                                        <f:validator validatorId="searchValidator"/>
+                                        <f:attribute name="applicationController" value="#{applicationController}"/>
+                                        </h:inputText>                                       
+                                        <h:message for="searchValue" style="color:red" />
+                                    </h:panelGrid> 
+                                    
+                                   <br></br>
+
+                                   <h:selectOneMenu style="width: 200px" 
+                                                    value="#{applicationController.choice}"
+                                                    valueChangeListener="#{applicationController.choiceChanged}"
+                                                    immediate="true">
+                                        <f:selectItem itemValue="ApplicationName" itemLabel="Application Name"/>   
+                                        <f:selectItem itemValue="Platform" itemLabel="Platform"/>    
+                                        <f:selectItem itemValue="Editor" itemLabel="Editor"/>                                     
+  
+                                    </h:selectOneMenu>
+
+                                    <br></br>
+                                    <br></br>
+  
+                                    <h:commandButton value="Search" 
+                                                     action="#{applicationController.searchApp}"
+                                                     class="btn btn-primary"/>  
+                                </div>
+                            </h:form>
+                        </f:view>                          
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

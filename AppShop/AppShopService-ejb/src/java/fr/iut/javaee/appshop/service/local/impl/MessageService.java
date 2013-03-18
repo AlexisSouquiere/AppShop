@@ -4,19 +4,15 @@
  */
 package fr.iut.javaee.appshop.service.local.impl;
 
-import fr.iut.javaee.appshop.commons.Application;
-import fr.iut.javaee.appshop.commons.Editor;
 import fr.iut.javaee.appshop.commons.Message;
-import fr.iut.javaee.appshop.service.local.ApplicationServiceLocal;
 import fr.iut.javaee.appshop.service.local.MessageServiceLocal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 /**
  *
@@ -29,16 +25,28 @@ public class MessageService implements MessageServiceLocal
     @PersistenceContext(unitName="AppShopCommonsPU")
     private EntityManager em;
     
+    Logger logger = Logger.getLogger(DownloadService.class.getName());
+    
     @RolesAllowed("Administrator")
     @Override
     public void persist(Message m) 
     {      
-        em.persist(em.merge(m));       
+        try {
+            em.persist(em.merge(m));  
+        }
+        catch(Exception e) {
+            logger.log(Level.SEVERE, "Unable to persist the given message object");
+        }     
     }
 
     @Override
     public void remove(Message m) 
     {
-        em.remove(em.merge(m));
+        try {
+            em.remove(em.merge(m));
+        }
+        catch(Exception e) {
+            logger.log(Level.SEVERE, "Unable to remove the given message object");
+        }
     }
 }

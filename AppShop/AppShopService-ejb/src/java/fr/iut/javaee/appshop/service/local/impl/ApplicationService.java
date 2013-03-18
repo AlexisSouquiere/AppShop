@@ -86,7 +86,7 @@ public class ApplicationService implements ApplicationServiceLocal
     public List<Application> findApplicationsByName(String name) 
     {
         return em.createNamedQuery("Application.findByApplicationName")
-                              .setParameter("applicationName", name)
+                              .setParameter("applicationName", "%" + name + "%")
                               .getResultList();        
     }
 
@@ -183,5 +183,44 @@ public class ApplicationService implements ApplicationServiceLocal
     public void setEM(EntityManager em)
     {
         this.em = em;
+    }
+
+
+    @Override
+    public List<Application> findApplicationsByPlatformName(String name) {
+         Query query = em.createQuery("SELECT a FROM Application a WHERE a.applicationPlatform.platformName LIKE :platformName");
+        query.setParameter("platformName", "%" + name + "%");
+        
+        List<Application> apps = query.getResultList();
+        
+        List<Application> myApps = new ArrayList<Application>();
+        
+        for(Application app : apps)
+        {
+            if(!(myApps.contains(app)))
+            {
+                myApps.add(app);
+            } 
+        }
+        return myApps;
+    }
+
+    @Override
+    public List<Application> findApplicationsByEditorName(String name) {
+        Query query = em.createQuery("SELECT a FROM Application a WHERE a.applicationEditor.editorName LIKE :editorName");
+        query.setParameter("editorName", "%" + name + "%");
+        
+         List<Application> apps = query.getResultList();
+        
+        List<Application> myApps = new ArrayList<Application>();
+        
+        for(Application app : apps)
+        {
+            if(!(myApps.contains(app)))
+            {
+                myApps.add(app);
+            } 
+        }
+        return myApps;     
     }
 }

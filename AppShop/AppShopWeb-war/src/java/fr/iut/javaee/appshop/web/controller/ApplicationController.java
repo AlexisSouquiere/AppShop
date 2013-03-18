@@ -13,6 +13,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.event.ValueChangeEvent;
 
 /**
  *
@@ -109,5 +110,62 @@ public class ApplicationController implements Serializable
     public void setUserController(UserController userController)
     {
         this.userController = userController;
+    }
+    
+    
+    //Application search //   
+    
+    private String choice;
+    private String searchValue;
+
+    public String searchApp()
+    {
+             
+        if("ApplicationName".equals(choice))
+        {
+            applications = service.findApplicationsByName(searchValue);
+            if(applications.size()>0){
+                return "/applications/list?faces-redirect=true"; 
+            }
+            else
+                return null;
+        }        
+        else if("Platform".equals(choice))
+        {           
+            applications = service.findApplicationsByPlatformName(searchValue);
+            if(applications.size()>0){    
+                return "/applications/list?faces-redirect=true";
+            }
+            else
+                return null;
+        }
+        else if("Editor".equals(choice))
+        {
+            applications = service.findApplicationsByEditorName(searchValue);
+            if(applications.size()>0){
+                return "/applications/list?faces-redirect=true";
+            }
+        }        
+        return null;
+    }
+    
+    public void choiceChanged(ValueChangeEvent e){
+       choice = e.getNewValue().toString(); 
+    }
+
+    public void setChoice(String choice) {
+        this.choice = choice;
+    }
+
+    public String getChoice() {
+        return choice;
+    }
+
+    public String getSearchValue() {
+        return searchValue;
+    }
+    
+    public void setSearchValue(String searchValue) {
+        this.searchValue = searchValue;
     }
 }

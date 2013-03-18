@@ -26,9 +26,13 @@ public interface ApplicationServiceLocal
     
     public List<Application> findApplicationsByPlatformId(int id);
     
+    public List<Application> findApplicationsByPlatformName(String name);
+    
     public List<Application> findApplicationsByVersion(String version);
     
     public List<Application> findApplicationsByEditorId(int id); 
+    
+    public List<Application> findApplicationsByEditorName(String name);
     
     public void persist(Application a);
     

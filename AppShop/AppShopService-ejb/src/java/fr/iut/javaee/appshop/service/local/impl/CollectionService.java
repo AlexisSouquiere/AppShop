@@ -7,6 +7,8 @@ package fr.iut.javaee.appshop.service.local.impl;
 import fr.iut.javaee.appshop.commons.Collection;
 import fr.iut.javaee.appshop.service.local.CollectionServiceLocal;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,6 +23,8 @@ public class CollectionService implements CollectionServiceLocal
 {
     @PersistenceContext(unitName="AppShopCommonsPU")
     private EntityManager em;
+    
+    Logger logger = Logger.getLogger(DownloadService.class.getName());
 
     @Override
     public Collection findOneById(Integer id) 
@@ -41,13 +45,23 @@ public class CollectionService implements CollectionServiceLocal
     @Override
     public void persist(Collection c) 
     {
-        em.persist(em.merge(c));
+        try {
+            em.persist(em.merge(c));
+        }
+        catch(Exception e) {
+            logger.log(Level.SEVERE, "Unable to remove the given collection object");
+        }
     }
 
     @Override
     public void remove(Collection c) 
     {
-        em.remove(em.merge(c));
+        try {
+            em.remove(em.merge(c));
+        }
+        catch(Exception e) {
+            logger.log(Level.SEVERE, "Unable to remove the given collection object");
+        }
     } 
     
     @Override

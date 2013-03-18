@@ -7,6 +7,8 @@ package fr.iut.javaee.appshop.service.local.impl;
 import fr.iut.javaee.appshop.commons.Comment;
 import fr.iut.javaee.appshop.service.local.CommentServiceLocal;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,6 +23,8 @@ public class CommentService implements CommentServiceLocal
 {
     @PersistenceContext(unitName="AppShopCommonsPU")
     private EntityManager em;
+    
+    Logger logger = Logger.getLogger(DownloadService.class.getName());
     
     @Override
     public List<Comment> findCommentsByApplicationId(Integer id) 
@@ -64,12 +68,23 @@ public class CommentService implements CommentServiceLocal
     @Override
     public void persist(Comment c) 
     {
-        em.persist(c);
+        try {
+            em.persist(c);
+        }
+        catch(Exception e) {
+            logger.log(Level.SEVERE, "Unable to persist the given comment object");
+        }
     }
 
     @Override
-    public void remove(Comment c) {
-        em.persist(c);
+    public void remove(Comment c) 
+    {
+        try {
+            em.persist(c);
+        }
+        catch(Exception e) {
+            logger.log(Level.SEVERE, "Unable to remove the given comment object");
+        }
     } 
     
     public void setEM (EntityManager em)

@@ -7,6 +7,8 @@ package fr.iut.javaee.appshop.service.local.impl;
 import fr.iut.javaee.appshop.commons.Platform;
 import fr.iut.javaee.appshop.service.local.PlatformServiceLocal;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,7 +22,9 @@ public class PlateformService implements PlatformServiceLocal
 {
     @PersistenceContext(unitName="AppShopCommonsPU")
     private EntityManager em;
-
+    
+    Logger logger = Logger.getLogger(DownloadService.class.getName());
+    
     @Override
     public List<Platform> findAll() {
         
@@ -38,14 +42,23 @@ public class PlateformService implements PlatformServiceLocal
     @Override
     public void persist(Platform p) 
     {
-    
-        em.persist(em.merge(p));
+        try {
+            em.persist(em.merge(p));
+        }
+        catch(Exception e) {
+            logger.log(Level.SEVERE, "Unable to persist the given platfform object");
+        }     
     }
 
     @Override
     public void remove(Platform p) 
     {
-        em.remove(em.merge(p));
+        try {
+            em.remove(em.merge(p));
+        }
+        catch(Exception e) {
+            logger.log(Level.SEVERE, "Unable to remove the given platfform object");
+        }     
     }  
     
     public void setEM(EntityManager em)

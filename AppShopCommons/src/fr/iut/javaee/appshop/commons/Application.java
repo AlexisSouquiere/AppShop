@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Application.findByApplicationId", query = "SELECT a FROM Application a WHERE a.applicationId = :applicationId"),
     @NamedQuery(name = "Application.findByApplicationReleaseDate", query = "SELECT a FROM Application a WHERE a.applicationReleaseDate = :applicationReleaseDate"),
     @NamedQuery(name = "Application.findByApplicationWebsite", query = "SELECT a FROM Application a WHERE a.applicationWebsite = :applicationWebsite"),
-    @NamedQuery(name = "Application.findByApplicationName", query = "SELECT a FROM Application a WHERE a.applicationName = :applicationName"),
+    @NamedQuery(name = "Application.findByApplicationName", query = "SELECT a FROM Application a WHERE a.applicationName LIKE:applicationName"),
     @NamedQuery(name = "Application.findByApplicationVersion", query = "SELECT a FROM Application a WHERE a.applicationVersion = :applicationVersion"),
     @NamedQuery(name = "Application.findByApplicationPrice", query = "SELECT a FROM Application a WHERE a.applicationPrice = :applicationPrice")})
 public class Application implements Serializable {

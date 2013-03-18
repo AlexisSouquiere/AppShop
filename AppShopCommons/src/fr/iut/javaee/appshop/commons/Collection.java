@@ -44,7 +44,7 @@ public class Collection implements Serializable {
     @Column(name = "COLLECTION_NAME", nullable = false, length = 25)
     private String collectionName;
     @JoinColumn(name = "COLLECTION_USERS_ID", referencedColumnName = "USER_ID", nullable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade= CascadeType.REMOVE)
     private Users collectionUsers;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "applicationCollectionCollection")
     private List<ApplicationCollection> applicationCollectionList;

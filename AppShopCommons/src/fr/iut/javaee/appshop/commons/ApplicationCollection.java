@@ -36,7 +36,7 @@ public class ApplicationCollection implements Serializable {
     @Column(name = "APPLICATION_COLLECTION_ID", nullable = false)
     private Integer applicationCollectionId;
     @JoinColumn(name = "APPLICATION_COLLECTION_COLLECTION_ID", referencedColumnName = "COLLECTION_ID", nullable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade= CascadeType.REMOVE)
     private Collection applicationCollectionCollection;
     @JoinColumn(name = "APPLICATION_COLLECTION_APPLICATION_ID", referencedColumnName = "APPLICATION_ID", nullable = false)
     @ManyToOne(optional = false, cascade= CascadeType.ALL)
